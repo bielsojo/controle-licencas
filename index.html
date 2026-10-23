@@ -1126,8 +1126,9 @@ function makePlan(){
     S.active.slice().sort((x,y) => (x.data ? 0 : 1) - (y.data ? 0 : 1) || (x.data||'').localeCompare(y.data||''))
       .slice(0, need).forEach(s => plan.push({type:'reciclar', id:s.id, host:'', serial:''}));
   }
-  NA.plan = plan;
+  NA.plan = plan; NA.pw = {};
   vAtivar();
+  loadPlanPws(plan);
   setTimeout(() => { const p = $('#plan'); if (p) p.scrollIntoView({behavior:'smooth', block:'start'}); const f = $('#ph0'); if (f) f.focus({preventScroll:true}); }, 60);
 }
 function drawPlan(){
@@ -1140,6 +1141,10 @@ function drawPlan(){
             : `<div class="alert ok" style="margin-bottom:6px">${ic('check')}<span>Há vagas livres suficientes. Nenhuma reciclagem necessária.</span></div>`}
       ${P2.map((p,i) => { const s = S.slotById[p.id]; return `<div class="plan-row">
         <div style="min-width:0"><div class="mono strong trunc">${esc(s.a.email)} <span class="muted" style="font-weight:400">· vaga ${s.n}</span></div>
+          <div class="small" style="display:flex;align-items:center;gap:4px;margin:2px 0 4px"><span class="muted">Senha:</span>
+            <span class="mono trunc">${NA.pw && NA.pw[s.a.id] != null ? esc(NA.pw[s.a.id]) : '<span class="muted">••••••••••••</span>'}</span>
+            <button class="ibtn" title="${NA.pw && NA.pw[s.a.id] != null ? 'Ocultar' : 'Mostrar'} senha" onclick="planPw(this,${s.a.id})">${ic(NA.pw && NA.pw[s.a.id] != null ? 'eyeoff' : 'eye','sm')}</button>
+            <button class="ibtn" title="Copiar senha" onclick="planPwCopy(this,${s.a.id})">${ic('copy','sm')}</button></div>
           ${p.type === 'livre' ? '<span class="badge b-ok dotb">vaga livre</span>' : `<span class="badge b-warn">${ic('rec')}reciclar</span> <span class="small muted">${esc(s.cli)} · <span class="mono">${esc(s.host||'sem hostname')}</span> · ${fmt(s.data)}${s.data ? ` (${ageTxt(ageDays(s.data))})` : ''}</span>`}</div>
         <input class="input mono" id="ph${i}" placeholder="Hostname" value="${esc(p.host)}" oninput="NA.plan[${i}].host=this.value">
         <div class="field"><input class="input mono" id="ps${i}" placeholder="Serial" value="${esc(p.serial)}" oninput="NA.plan[${i}].serial=this.value;checkSerial(this,null,'#psh${i}')"><span class="help" id="psh${i}"></span></div>
@@ -1147,10 +1152,35 @@ function drawPlan(){
       <div class="alert err hidden" id="pe" style="margin-top:10px"></div>
     </div>
     <div class="card-f" style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
-      <button class="btn" onclick="NA.plan=null;vAtivar()">Cancelar</button>
+      <button class="btn" onclick="NA.plan=null;NA.pw={};vAtivar()">Cancelar</button>
       ${canEdit() ? `<button class="btn primary" id="pok" onclick="confirmPlan(this)">${ic('check','sm')} Confirmar ${plural(P2.length,'ativação','ativações')}</button>` : '<span class="small muted">Seu perfil é somente consulta.</span>'}
     </div></div>`;
 }
+// Senha da conta direto no plano: carregada ao sugerir as vagas (cada visualização fica no histórico).
+async function loadPlanPws(plan){
+  const ids = [...new Set(plan.map(p => S.slotById[p.id].a.id))];
+  const res = await Promise.all(ids.map(id => rpc('obter_senha', {p_conta:id}).then(t => [id, t], e => { toast(errMsg(e), 'err'); return [id, null]; })));
+  if (NA.plan !== plan) return;
+  res.forEach(([id, t]) => { if (t !== null) NA.pw[id] = t; });
+  if (!$('#plan')) return;
+  const f = document.activeElement, fid = f && f.id, pos = f && f.selectionStart;
+  drawPlan();
+  const g = fid && document.getElementById(fid);
+  if (g){ g.focus({preventScroll:true}); if (pos != null) g.setSelectionRange(pos, pos); }
+}
+async function planPwGet(btn, id){
+  NA.pw = NA.pw || {};
+  if (NA.pw[id] != null) return NA.pw[id];
+  const t = await busy(btn, async () => { try { return await rpc('obter_senha', {p_conta:id}); } catch(e){ toast(errMsg(e), 'err'); return null; } });
+  return t;
+}
+async function planPw(btn, id){
+  NA.pw = NA.pw || {};
+  if (NA.pw[id] != null){ delete NA.pw[id]; drawPlan(); return; }
+  const t = await planPwGet(btn, id); if (t === null) return;
+  NA.pw[id] = t; drawPlan();
+}
+async function planPwCopy(btn, id){ const t = await planPwGet(btn, id); if (t !== null) copy(t, 'Senha copiada'); }
 async function confirmPlan(btn){
   const er = t => { const x = $('#pe'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
   const seen = new Set();
@@ -1175,7 +1205,7 @@ async function confirmPlan(btn){
       const n = await rpc('ativar_lote', {p_itens:items});
       await loadData();
       const ids = items.map(i => i.vaga_id);
-      NA.plan = null; NA.cli = ''; NA.qtd = 1;
+      NA.plan = null; NA.pw = {}; NA.cli = ''; NA.qtd = 1;
       toast(`${plural(n || items.length,'ativação registrada','ativações registradas')}`);
       vAtivar();
       $('#plan').innerHTML = `<div class="card" style="max-width:860px;margin-top:16px"><div class="card-b" style="padding-top:18px">
