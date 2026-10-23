@@ -875,10 +875,10 @@ function drawAccount(){
         <div class="sec-t">Vagas ${cellsHtml(a)}</div>
         <div class="grid" style="gap:10px">${a.slots.map(s => slotCard(s, edit)).join('')}</div>
       </div>
-      <div>
+      ${MS365_ATIVO ? `<div>
         <div class="sec-t">Microsoft 365${MS[a.id] && !MS[a.id].loading ? `<button class="btn sm ghost" onclick="loadMs(${a.id})">${ic('refresh','sm')} Atualizar</button>` : ''}</div>
         ${msHtml(a)}
-      </div>
+      </div>` : ''}
       ${isAdmin() ? `<div>
         <div class="sec-t" style="color:var(--bad)">Zona de perigo</div>
         <div class="slot" style="border-color:color-mix(in srgb,var(--bad) 35%,var(--line))"><div class="slot-h"><div class="grow"><div class="strong">Excluir esta conta</div><div class="small muted">Remove a conta, as 5 vagas e a senha guardada. Não dá para desfazer.</div></div>
@@ -908,6 +908,9 @@ function excluirConta(id){
 }
 
 /* ---- Dispositivos e ativações no Microsoft 365 (somente leitura, via Edge Function "microsoft365") ---- */
+// Seção escondida até a Edge Function "microsoft365" estar publicada e configurada (ver supabase/MICROSOFT365.md).
+// Para ligar: troque para true.
+const MS365_ATIVO = false;
 const MS = {};   // cache por conta: {loading, data, err}
 async function loadMs(id){
   MS[id] = {loading:true};
