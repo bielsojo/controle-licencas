@@ -1183,7 +1183,7 @@ function vQualBody(){
    HISTÓRICO
    ===================================================================== */
 const HV = {q:'', acao:'', page:0};
-const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Datas confirmadas'];
+const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Usuário criado','Senha de usuário redefinida','Datas confirmadas'];
 function vHistorico(){
   $('#view').innerHTML = pageHead('Histórico', 'Tudo o que foi feito na ferramenta: quem, o quê e quando.') + `
   <div class="toolbar">
@@ -1213,35 +1213,99 @@ async function loadHist(){
    USUÁRIOS
    ===================================================================== */
 async function vUsuarios(){
-  $('#view').innerHTML = pageHead('Usuários', 'Quem pode acessar a ferramenta e o que cada um pode fazer.') + '<div id="ubody"><div class="skel" style="height:180px"></div></div>';
-  const {data, error} = await sb.from('perfis').select('id,nome,perfil,ativo,criado_em').order('criado_em');
+  const adm = isAdmin();
+  $('#view').innerHTML = pageHead('Usuários', 'Quem pode acessar a ferramenta e o que cada um pode fazer.',
+    adm ? `<button class="btn primary" onclick="newUserForm()">${ic('plus')} Novo usuário</button>` : '') + '<div id="ubody"><div class="skel" style="height:180px"></div></div>';
+  const {data, error} = adm ? await sb.rpc('listar_usuarios') : await sb.from('perfis').select('id,nome,perfil,ativo,criado_em').order('criado_em');
   const el = $('#ubody'); if (!el || S.view !== 'usuarios') return;
   if (error){ el.innerHTML = `<div class="alert err">${ic('alert')}<span>${esc(errMsg(error))}</span></div>`; return; }
-  const adm = isAdmin();
   S.users = data || [];
-  el.innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Usuário</th><th>Perfil</th><th>Acesso</th>${adm ? '<th></th>' : ''}</tr></thead><tbody>
-  ${(data||[]).map(u => { const self = u.id === S.me.id; return `<tr>
-    <td><div style="display:flex;gap:10px;align-items:center"><span class="avatar">${esc((u.nome[0]||'?').toUpperCase())}</span><div><div class="strong">${esc(u.nome)} ${self ? '<span class="badge b-acc">você</span>' : ''}</div><div class="sub">desde ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div></div></div></td>
+  el.innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Usuário</th><th>Perfil</th><th>Acesso</th>${adm ? '<th class="hide-sm">Último acesso</th><th></th>' : ''}</tr></thead><tbody>
+  ${S.users.map(u => { const self = u.id === S.me.id; return `<tr>
+    <td><div style="display:flex;gap:10px;align-items:center"><span class="avatar">${esc((u.nome[0]||'?').toUpperCase())}</span><div style="min-width:0"><div class="strong">${esc(u.nome)} ${self ? '<span class="badge b-acc">você</span>' : ''}</div><div class="sub">${u.email ? esc(u.email) : 'desde ' + new Date(u.criado_em).toLocaleDateString('pt-BR')}</div></div></div></td>
     <td>${adm && !self ? `<select class="input" style="width:auto;height:32px" onchange="setPerfil('${u.id}',this.value)">${Object.entries(PERFIL).map(([k,l]) => `<option value="${k}" ${u.perfil===k?'selected':''}>${l}</option>`).join('')}</select>`
         : `<span class="badge ${u.perfil==='admin'?'b-res':u.perfil==='operador'?'b-acc':''}">${PERFIL[u.perfil]}</span>`}</td>
     <td>${u.ativo ? '<span class="badge b-ok dotb">ativo</span>' : '<span class="badge b-bad dotb">bloqueado</span>'}</td>
-    ${adm ? `<td class="right nowrap"><button class="btn sm" onclick="renameUser('${u.id}')">${ic('edit','sm')} Nome</button>
+    ${adm ? `<td class="hide-sm small">${u.ultimo_acesso ? relTime(u.ultimo_acesso) : '<span class="muted">nunca entrou</span>'}</td>
+      <td class="right nowrap"><button class="btn sm" onclick="renameUser('${u.id}')">${ic('edit','sm')} Nome</button>
+      <button class="btn sm" onclick="resetUserPw('${u.id}')">${ic('key','sm')} Senha</button>
       ${self ? '' : `<button class="btn sm" style="${u.ativo?'color:var(--bad)':''}" onclick="setAtivo('${u.id}',${!u.ativo})">${u.ativo ? 'Bloquear' : 'Reativar'}</button>`}</td>` : ''}</tr>`; }).join('')}
   </tbody></table></div></div>
   ${adm ? '' : '<div class="small muted" style="margin-top:10px">Só o administrador vê a lista completa de usuários.</div>'}
-  <div class="grid cols2" style="margin-top:16px">
-    <div class="card"><div class="card-h"><h3>O que cada perfil pode fazer</h3></div><div class="card-b"><div class="mini">
-      <div class="mini-row" style="cursor:default"><span class="badge b-res">Administrador</span><span class="small">Tudo, inclusive gerenciar usuários.</span></div>
-      <div class="mini-row" style="cursor:default"><span class="badge b-acc">Operador</span><span class="small">Consulta e altera licenças: ativar, editar, liberar, criar contas.</span></div>
-      <div class="mini-row" style="cursor:default"><span class="badge">Consulta</span><span class="small">Só visualiza contas, máquinas e senhas.</span></div>
-    </div></div></div>
-    ${adm ? `<div class="card"><div class="card-h"><h3>Adicionar um usuário</h3></div><div class="card-b small" style="color:var(--text-2)">
-      <ol style="margin:0;padding-left:18px;display:grid;gap:6px">
-        <li>No Supabase, abra <a href="https://supabase.com/dashboard/project/${(window.SUPABASE_URL.match(/https:\/\/([^.]+)/)||[])[1]}/auth/users" target="_blank" rel="noopener">Authentication → Users</a>.</li>
-        <li>Clique em <b>Add user → Create new user</b>, informe e-mail e senha e marque <b>Auto Confirm User</b>.</li>
-        <li>Volte aqui: a pessoa aparece como <b>Consulta</b>. Ajuste o perfil e o nome.</li>
-      </ol></div></div>` : ''}
-  </div>`;
+  <div class="card" style="margin-top:16px;max-width:720px"><div class="card-h"><h3>O que cada perfil pode fazer</h3></div><div class="card-b"><div class="mini">
+    <div class="mini-row" style="cursor:default"><span class="badge b-res">Administrador</span><span class="small">Tudo, inclusive criar e gerenciar usuários.</span></div>
+    <div class="mini-row" style="cursor:default"><span class="badge b-acc">Operador</span><span class="small">Consulta e altera licenças: ativar, editar, liberar, criar contas.</span></div>
+    <div class="mini-row" style="cursor:default"><span class="badge">Consulta</span><span class="small">Só visualiza contas, máquinas e senhas.</span></div>
+  </div></div></div>`;
+}
+// Chama a Edge Function "usuarios" (roda no Supabase com a chave de serviço; daqui só vai o login de quem usa).
+async function callUsuarios(body){
+  const {data, error} = await sb.functions.invoke('usuarios', {body});
+  if (error){
+    let m = error.message;
+    try { const j = await error.context.json(); if (j && j.error) m = j.error; } catch(e){}
+    if (/Failed to send|fetch/i.test(m)) m = 'Não foi possível falar com o servidor. Tente de novo.';
+    throw new Error(m);
+  }
+  return data;
+}
+function genPw(){
+  const a = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789', b = '!@#$%*?';
+  const r = new Uint32Array(14); crypto.getRandomValues(r);
+  const s = [...r].map((n, i) => i === 7 ? b[n % b.length] : a[n % a.length]).join('');
+  return s.slice(0, 4) + '-' + s.slice(4, 9) + '-' + s.slice(9);
+}
+function pwField(id, val=''){
+  return `<div style="display:flex;gap:8px"><input class="input mono grow" type="text" id="${id}" value="${esc(val)}" autocomplete="new-password" spellcheck="false">
+    <button type="button" class="btn" onclick="$('#${id}').value=genPw()">${ic('refresh','sm')} Gerar</button></div>`;
+}
+function accessText(email, senha){ return `Acesso ao Controle de Licenças Office\nSite: ${location.origin + location.pathname}\nE-mail: ${email}\nSenha: ${senha}`; }
+function showAccess(title, email, senha){
+  const m = modal({title, icon:'check', body:`<div class="form">
+    <div class="alert ok">${ic('check')}<span>Envie estes dados para a pessoa por um canal seguro. A senha não será mostrada de novo.</span></div>
+    <div class="card" style="overflow:hidden">
+      <div class="cred"><span class="k">E-mail</span><span class="v mono trunc">${esc(email)}</span></div>
+      <div class="cred"><span class="k">Senha</span><span class="v mono trunc">${esc(senha)}</span></div>
+    </div></div>`, foot:`<button class="btn" onclick="closeModal()">Fechar</button><button class="btn primary" id="accp">${ic('copy','sm')} Copiar acesso</button>`});
+  $('#accp', m).onclick = () => copy(accessText(email, senha), 'Acesso copiado');
+}
+function newUserForm(){
+  if (!isAdmin()) return;
+  const m = modal({title:'Novo usuário', sub:'A pessoa entra no site com este e-mail e senha.', icon:'user', body:`
+    <div class="form">
+      <div class="field"><label>Nome</label><input class="input" id="nun" placeholder="ex.: Maria Souza"></div>
+      <div class="field"><label>E-mail</label><input class="input" type="email" id="nue" placeholder="maria@lowcost.com.br"></div>
+      <div class="field"><label>Senha inicial</label>${pwField('nup', genPw())}<span class="help">Mínimo de 8 caracteres. "Gerar" cria uma senha forte.</span></div>
+      <div class="field"><label>Perfil</label><select class="input" id="nuf">${Object.entries(PERFIL).map(([k,l]) => `<option value="${k}" ${k==='operador'?'selected':''}>${l}</option>`).join('')}</select></div>
+      <div class="alert err hidden" id="nuerr"></div>
+    </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="nuok">Criar usuário</button>`});
+  $('#nuok', m).onclick = e => busy(e.currentTarget, async () => {
+    const er = t => { const x = $('#nuerr'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
+    const nome = $('#nun').value.trim(), email = $('#nue').value.trim().toLowerCase(), senha = $('#nup').value, perfil = $('#nuf').value;
+    if (!nome) return er('Informe o nome.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return er('E-mail inválido.');
+    if (senha.length < 8) return er('A senha precisa ter pelo menos 8 caracteres.');
+    try {
+      await callUsuarios({acao:'criar', nome, email, senha, perfil});
+      toast('Usuário criado'); vUsuarios(); showAccess('Usuário criado', email, senha);
+    } catch(err){ er(err.message); }
+  });
+  setTimeout(() => $('#nun').focus(), 50);
+}
+function resetUserPw(id){
+  const u = (S.users || []).find(x => x.id === id); if (!u) return;
+  const m = modal({title:'Redefinir senha', sub:u.email || u.nome, icon:'key', body:`
+    <div class="form">
+      <div class="field"><label>Nova senha</label>${pwField('rup', genPw())}</div>
+      <div class="alert err hidden" id="ruerr"></div>
+    </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="ruok">Salvar senha</button>`});
+  $('#ruok', m).onclick = e => busy(e.currentTarget, async () => {
+    const er = t => { const x = $('#ruerr'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
+    const senha = $('#rup').value;
+    if (senha.length < 8) return er('A senha precisa ter pelo menos 8 caracteres.');
+    try { await callUsuarios({acao:'senha', id, senha}); toast('Senha redefinida'); showAccess('Senha redefinida', u.email || u.nome, senha); }
+    catch(err){ er(err.message); }
+  });
 }
 async function setPerfil(id, perfil){
   const {error} = await sb.from('perfis').update({perfil}).eq('id', id);
