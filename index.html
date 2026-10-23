@@ -960,14 +960,17 @@ function changePwForm(id){
   setTimeout(() => $('#cp1').focus(), 50);
 }
 function slotCard(s, edit){
+  const adm = isAdmin();
+  const resBtn = `<button class="btn sm" style="color:var(--res)" onclick="reservarVaga(${s.id})">${ic('lock','sm')} Reservar</button>`;
   if (s.st === 'reservado') return `<div class="slot res"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow strong">Reservada</div><span class="badge b-res">${ic('lock')}Outro departamento</span></div>
-    <div class="small muted" style="margin-top:8px">Esta vaga pertence a outro departamento e não pode ser usada nem alterada.</div></div>`;
+    <div class="small muted" style="margin-top:8px">${adm ? 'Reservada para outro departamento. Só administradores podem tirar a reserva.' : 'Esta vaga pertence a outro departamento e não pode ser usada nem alterada.'}</div>
+    ${adm ? `<div class="slot-a"><button class="btn sm" onclick="tirarReserva(${s.id})">${ic('unlock','sm')} Tirar reserva</button></div>` : ''}</div>`;
   if (s.st === 'disponivel') return `<div class="slot free"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow"><div class="strong">Vaga livre</div><div class="small muted">Pronta para uma nova ativação</div></div>
-    ${edit ? `<button class="btn sm primary" onclick="slotForm(${s.id})">${ic('plus','sm')} Ativar</button>` : ''}</div></div>`;
+    ${adm ? resBtn : ''}${edit ? `<button class="btn sm primary" onclick="slotForm(${s.id})">${ic('plus','sm')} Ativar</button>` : ''}</div></div>`;
   return `<div class="slot"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow" style="min-width:0"><div class="strong trunc">${esc(s.cli)}</div><div class="small muted mono trunc">${esc(s.host) || 'sem hostname'}</div></div><span class="badge b-acc dotb">Em uso</span></div>
     <div class="kv"><span>Serial</span><span class="mono">${esc(s.serial) || '<span class="muted">—</span>'}</span><span>Ativada em</span><span>${dateTag(s)}${s.data ? ` <span class="muted small">· ${ageTxt(ageDays(s.data))}</span>` : ''}</span>
       ${s.prop ? `<span>Proposta</span><span>${esc(s.prop)}</span>` : ''}${s.obs ? `<span>Observação</span><span>${esc(s.obs)}</span>` : ''}</div>
-    ${edit ? `<div class="slot-a"><button class="btn sm" onclick="slotForm(${s.id})">${ic('edit','sm')} Editar</button><button class="btn sm" style="color:var(--bad)" onclick="confirmRelease(${s.id})">${ic('unlock','sm')} Liberar vaga</button></div>` : ''}</div>`;
+    ${edit ? `<div class="slot-a"><button class="btn sm" onclick="slotForm(${s.id})">${ic('edit','sm')} Editar</button><button class="btn sm" style="color:var(--bad)" onclick="confirmRelease(${s.id})">${ic('unlock','sm')} Liberar vaga</button>${adm ? resBtn : ''}</div>` : ''}</div>`;
 }
 
 /* =====================================================================
@@ -1043,6 +1046,28 @@ async function confirmRelease(id){
   if (!btn) return;
   await busy(btn, async () => {
     try { await rpc('liberar_vaga', {p_vaga:id}); await loadData(); closeModal(); toast('Vaga liberada'); renderView(); if (S.drawer) drawAccount(); }
+    catch(e){ closeModal(); toast(errMsg(e), 'err'); }
+  });
+}
+// Reservas: só administrador (o banco também confere).
+async function reservarVaga(id){
+  const s = S.slotById[id], inUse = s.st === 'ativo';
+  const btn = await confirmBox({title:`Reservar a vaga ${s.n}?`, tone: inUse ? 'bad' : 'warn', icon:'lock', ok:'Reservar',
+    text:`A vaga ${s.n} de <span class="mono">${esc(s.a.email)}</span> fica reservada para outro departamento e deixa de ser oferecida em ativações e reciclagens.` +
+      (inUse ? `<div class="alert warn" style="margin-top:12px">${ic('alert')}<span>Ela está em uso por <b>${esc(s.cli)}</b> (<span class="mono">${esc(s.host || 'sem hostname')}</span>). A máquina perde a licença; lembre de desativar o Office nela.</span></div>` : '')});
+  if (!btn) return;
+  await busy(btn, async () => {
+    try { await rpc('reservar_vaga', {p_vaga:id}); await loadData(); closeModal(); toast('Vaga reservada'); renderView(); if (S.drawer) drawAccount(); }
+    catch(e){ closeModal(); toast(errMsg(e), 'err'); }
+  });
+}
+async function tirarReserva(id){
+  const s = S.slotById[id];
+  const btn = await confirmBox({title:`Tirar a reserva da vaga ${s.n}?`, icon:'unlock', ok:'Tirar reserva',
+    text:`A vaga ${s.n} de <span class="mono">${esc(s.a.email)}</span> volta a ficar <b>livre</b> e pode ser usada em novas ativações. Confirme com o outro departamento antes.`});
+  if (!btn) return;
+  await busy(btn, async () => {
+    try { await rpc('tirar_reserva', {p_vaga:id}); await loadData(); closeModal(); toast('Reserva retirada'); renderView(); if (S.drawer) drawAccount(); }
     catch(e){ closeModal(); toast(errMsg(e), 'err'); }
   });
 }
@@ -1305,7 +1330,7 @@ function vQualBody(){
    HISTÓRICO
    ===================================================================== */
 const HV = {q:'', acao:'', page:0};
-const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Usuário criado','Senha de usuário redefinida','Datas confirmadas'];
+const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Vaga reservada','Reserva retirada','Usuário criado','Senha de usuário redefinida','Datas confirmadas'];
 function vHistorico(){
   $('#view').innerHTML = pageHead('Histórico', 'Tudo o que foi feito na ferramenta: quem, o quê e quando.') + `
   <div class="toolbar">
