@@ -3,158 +3,357 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Controle de Licenças Office</title>
+<title>Licenças Office</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f6fed'/%3E%3Ccircle cx='12' cy='19' r='5' fill='none' stroke='white' stroke-width='2.4'/%3E%3Cpath d='M15.5 15.5 24 7m-3 3 3 3' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('tema');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
 :root{
-  --bg:#f5f6f8; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea; --text:#1b2330; --muted:#677286;
-  --accent:#1f6feb; --accent-ink:#ffffff; --accent-soft:#e6efff;
-  --ok:#1a8a4a; --ok-soft:#e3f5ea; --warn:#b26a00; --warn-soft:#fff1d6; --bad:#c62f3a; --bad-soft:#fde8ea;
-  --res:#7a5af8; --res-soft:#efeafe; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
+  --bg:#f5f6f8; --surface:#ffffff; --surface-2:#f2f4f7; --surface-3:#e8ecf1; --line:#e4e7ec; --line-2:#d0d5dd;
+  --text:#101828; --text-2:#344054; --muted:#667085;
+  --accent:#2f6fed; --accent-hover:#2560d4; --accent-ink:#ffffff; --accent-soft:#ebf1ff; --accent-line:#c3d5fc;
+  --ok:#0f7a45; --ok-soft:#e6f6ee; --ok-cell:#34b37a;
+  --warn:#b54708; --warn-soft:#fef3e2;
+  --bad:#c01048; --bad-soft:#fdecf2;
+  --res:#6941c6; --res-soft:#f1ecfd;
+  --free-cell:#ffffff;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);
+  --shadow-lg:0 20px 48px -12px rgba(16,24,40,.25);
+  --scrim:rgba(16,24,40,.42);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0f141b; --panel:#171e28; --panel2:#1e2733; --line:#2a3544; --text:#e8edf4; --muted:#93a0b4;
-    --accent:#5b9bff; --accent-ink:#0b1220; --accent-soft:#1a2b46;
-    --ok:#4cc582; --ok-soft:#14301f; --warn:#f0b24a; --warn-soft:#3a2b10; --bad:#ff7a84; --bad-soft:#3b1a1e;
-    --res:#a893ff; --res-soft:#251f45; --shadow:0 1px 2px rgba(0,0,0,.4);
+    --bg:#0b0f15; --surface:#131921; --surface-2:#19212b; --surface-3:#212b37; --line:#232d3a; --line-2:#334155;
+    --text:#e8edf4; --text-2:#c2ccd8; --muted:#8693a6;
+    --accent:#5b8cff; --accent-hover:#7aa2ff; --accent-ink:#0a1222; --accent-soft:rgba(91,140,255,.13); --accent-line:rgba(91,140,255,.38);
+    --ok:#3ccf8a; --ok-soft:rgba(60,207,138,.12); --ok-cell:#2fae74;
+    --warn:#f5b04a; --warn-soft:rgba(245,176,74,.12);
+    --bad:#ff6b8f; --bad-soft:rgba(255,107,143,.12);
+    --res:#b39cff; --res-soft:rgba(179,156,255,.14);
+    --free-cell:#131921;
+    --shadow-sm:none; --shadow:0 1px 2px rgba(0,0,0,.35); --shadow-lg:0 24px 60px -12px rgba(0,0,0,.6);
+    --scrim:rgba(0,0,0,.55);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0f141b; --panel:#171e28; --panel2:#1e2733; --line:#2a3544; --text:#e8edf4; --muted:#93a0b4;
-  --accent:#5b9bff; --accent-ink:#0b1220; --accent-soft:#1a2b46;
-  --ok:#4cc582; --ok-soft:#14301f; --warn:#f0b24a; --warn-soft:#3a2b10; --bad:#ff7a84; --bad-soft:#3b1a1e;
-  --res:#a893ff; --res-soft:#251f45; --shadow:0 1px 2px rgba(0,0,0,.4);
+  --bg:#0b0f15; --surface:#131921; --surface-2:#19212b; --surface-3:#212b37; --line:#232d3a; --line-2:#334155;
+  --text:#e8edf4; --text-2:#c2ccd8; --muted:#8693a6;
+  --accent:#5b8cff; --accent-hover:#7aa2ff; --accent-ink:#0a1222; --accent-soft:rgba(91,140,255,.13); --accent-line:rgba(91,140,255,.38);
+  --ok:#3ccf8a; --ok-soft:rgba(60,207,138,.12); --ok-cell:#2fae74;
+  --warn:#f5b04a; --warn-soft:rgba(245,176,74,.12);
+  --bad:#ff6b8f; --bad-soft:rgba(255,107,143,.12);
+  --res:#b39cff; --res-soft:rgba(179,156,255,.14);
+  --free-cell:#131921;
+  --shadow-sm:none; --shadow:0 1px 2px rgba(0,0,0,.35); --shadow-lg:0 24px 60px -12px rgba(0,0,0,.6);
+  --scrim:rgba(0,0,0,.55);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+html,body{margin:0;min-height:100%}
+body{font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
 button,input,select,textarea{font:inherit;color:inherit}
-svg.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+svg.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.sm{width:15px;height:15px}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.muted{color:var(--muted)} .small{font-size:12.5px} .strong{font-weight:600}
+.nowrap{white-space:nowrap} .right{text-align:right} .grow{flex:1}
 .hidden{display:none!important}
-.muted{color:var(--muted)} .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
-.small{font-size:12.5px}
+.trunc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+::selection{background:var(--accent-line)}
 
-/* login */
-.login-wrap{min-height:100%;display:grid;place-items:center;padding:24px}
-.login{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:var(--shadow)}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
-.logo .mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
-.login h1{font-size:20px;margin:18px 0 4px}
-.field{display:flex;flex-direction:column;gap:5px;margin:12px 0}
-.field label{font-size:12.5px;color:var(--muted);font-weight:600}
-input[type=text],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{
-  background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);padding:7px 12px;border-radius:8px;cursor:pointer;font-weight:600;white-space:nowrap}
-.btn:hover{background:var(--panel2)}
+/* ---------- controles ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;padding:0 14px;border-radius:9px;border:1px solid var(--line-2);background:var(--surface);color:var(--text-2);font-weight:600;font-size:13.5px;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,box-shadow .12s;box-shadow:var(--shadow-sm)}
+.btn:hover{background:var(--surface-2)}
+.btn:focus-visible,.ibtn:focus-visible,.chip:focus-visible,.nav:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.primary:hover{filter:brightness(1.08)}
-.btn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
-.btn.sm{padding:4px 9px;font-size:12.5px}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.hint{background:var(--accent-soft);color:var(--text);border-radius:8px;padding:9px 11px;font-size:12.5px;margin-top:14px}
-.err{color:var(--bad);font-size:12.5px;min-height:18px}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.danger:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;border-color:transparent;box-shadow:none}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.sm{height:30px;padding:0 10px;font-size:12.5px;border-radius:8px}
+.btn.lg{height:42px;font-size:14.5px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.busy{pointer-events:none;opacity:.75}
+.btn.busy::before{content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ibtn{border:0;background:none;cursor:pointer;color:var(--muted);width:32px;height:32px;border-radius:8px;display:inline-grid;place-items:center;flex:none}
+.ibtn:hover{background:var(--surface-2);color:var(--text)}
+.input,select.input,textarea.input{height:38px;width:100%;padding:0 12px;background:var(--surface);border:1px solid var(--line-2);border-radius:9px;outline:none;transition:border-color .12s,box-shadow .12s}
+textarea.input{height:auto;min-height:70px;padding:9px 12px;resize:vertical}
+select.input{padding-right:30px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23889' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;cursor:pointer}
+.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.input.bad{border-color:var(--bad);box-shadow:0 0 0 3px var(--bad-soft)}
+.input::placeholder{color:var(--muted);opacity:.8}
+.input.mono{font-size:13px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field>label{font-size:12.5px;font-weight:600;color:var(--text-2)}
+.field .help{font-size:12px;color:var(--muted)}
+.field .help.bad{color:var(--bad)}
+.form{display:grid;gap:14px}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.searchbox{position:relative;flex:1;min-width:200px;max-width:420px}
+.searchbox .ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.searchbox .input{padding-left:36px}
+.pw{position:relative}.pw .input{padding-right:42px}.pw .ibtn{position:absolute;right:3px;top:3px}
 
-/* layout */
-.app{display:grid;grid-template-columns:232px 1fr;min-height:100%}
-.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
-.side .logo{padding:4px 8px 16px}
-.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:600;border:0;background:none;width:100%;text-align:left}
-.nav:hover{background:var(--panel2);color:var(--text)}
-.nav.on{background:var(--accent-soft);color:var(--accent)}
-.nav .badge{margin-left:auto}
-.side .grow{flex:1}
-.me{border-top:1px solid var(--line);padding-top:12px;display:flex;align-items:center;gap:10px}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700}
-.main{padding:24px 28px 48px;min-width:0}
-.head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-.head h2{margin:0;font-size:22px} .head p{margin:3px 0 0;color:var(--muted)}
-.proto{background:var(--warn-soft);color:var(--warn);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
-
-/* cards */
-.grid{display:grid;gap:14px}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
-.card h3{margin:0 0 12px;font-size:14px}
-.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.02em}
-.kpi .l{color:var(--muted);font-weight:600;font-size:12.5px}
-.kpi .s{color:var(--muted);font-size:12.5px;margin-top:2px}
-.cols2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
-.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--panel2)}
-.bar i{display:block;height:100%}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--muted)}
-.legend b{color:var(--text)}
-.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.hbar{display:grid;grid-template-columns:150px 1fr 38px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
-.hbar .t{height:10px;background:var(--panel2);border-radius:5px;overflow:hidden}
-.hbar .t i{display:block;height:100%;background:var(--accent);border-radius:5px}
-.hbar .n{text-align:right;font-weight:700}
-.hbar .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* table */
-.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-.tools .search{flex:1;min-width:220px;max-width:380px}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:12.5px;color:var(--muted)}
-.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.tw{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;box-shadow:var(--shadow);max-height:calc(100vh - 230px)}
-table{border-collapse:collapse;width:100%}
-th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
-th{position:sticky;top:0;background:var(--panel2);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);z-index:1;white-space:nowrap}
-tbody tr:last-child td{border-bottom:0}
-tbody tr.click{cursor:pointer} tbody tr.click:hover td{background:var(--panel2)}
-.count{color:var(--muted);font-size:12.5px;margin:8px 2px}
-.dots{display:inline-flex;gap:4px;vertical-align:middle}
-.dot{width:11px;height:11px;border-radius:3px;background:var(--accent)}
-.dot.f{background:transparent;border:2px solid var(--ok)} .dot.r{background:var(--res)}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+/* ---------- badges, alerts ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--surface-2);color:var(--text-2)}
+.badge .ic{width:12px;height:12px;stroke-width:2.2}
 .b-ok{background:var(--ok-soft);color:var(--ok)} .b-warn{background:var(--warn-soft);color:var(--warn)}
-.b-bad{background:var(--bad-soft);color:var(--bad)} .b-res{background:var(--res-soft);color:var(--res)} .b-acc{background:var(--accent-soft);color:var(--accent)}
-.b-n{background:var(--panel2);color:var(--muted)}
-.empty{padding:36px;text-align:center;color:var(--muted)}
+.b-bad{background:var(--bad-soft);color:var(--bad)} .b-res{background:var(--res-soft);color:var(--res)}
+.b-acc{background:var(--accent-soft);color:var(--accent)}
+.dotb::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border-radius:10px;font-size:13px;border:1px solid transparent}
+.alert .ic{margin-top:1px}
+.alert.warn{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 22%,transparent)}
+.alert.err{background:var(--bad-soft);color:var(--bad);border-color:color-mix(in srgb,var(--bad) 22%,transparent)}
+.alert.info{background:var(--accent-soft);color:var(--text-2);border-color:var(--accent-line)}
+.alert.ok{background:var(--ok-soft);color:var(--ok)}
+.alert b{font-weight:700}
+kbd{font:600 11px/1 Inter,sans-serif;padding:3px 6px;border-radius:5px;border:1px solid var(--line-2);background:var(--surface);color:var(--muted)}
 
-/* drawer & modal */
-.ov{position:fixed;inset:0;background:rgba(10,16,26,.45);z-index:50;display:flex;justify-content:flex-end}
-.ov.center{justify-content:center;align-items:center;padding:16px}
-.drawer{width:min(520px,100%);background:var(--bg);height:100%;overflow:auto;padding:20px;box-shadow:-8px 0 30px rgba(0,0,0,.25)}
-.modal{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--panel);border-radius:14px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-.modal h3{margin:0 0 4px;font-size:17px}
-.row{display:flex;gap:10px;align-items:center} .row.between{justify-content:space-between} .row.wrap{flex-wrap:wrap}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.slot{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:10px}
-.slot.free{border-style:dashed} .slot.res{background:var(--res-soft);border-color:transparent}
-.slot .kv{display:grid;grid-template-columns:90px 1fr;gap:3px 10px;margin-top:8px;font-size:13px}
-.slot .kv span:nth-child(odd){color:var(--muted)}
-.cred{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-top:8px}
-.cred .k{color:var(--muted);width:56px;font-size:12.5px}.cred .val{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.ibtn{border:0;background:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:6px;display:inline-grid;place-items:center}
-.ibtn:hover{background:var(--panel2);color:var(--text)}
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:99;box-shadow:var(--shadow)}
-.plan-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
-.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;margin:10px 0;font-size:13px}
-@media (max-width:860px){
+/* ---------- login ---------- */
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px;background:
+  radial-gradient(1200px 500px at 50% -10%,var(--accent-soft),transparent 70%),var(--bg)}
+.auth-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px;box-shadow:var(--shadow-lg)}
+.auth-card h1{font-size:22px;margin:26px 0 4px;letter-spacing:-.01em}
+.auth-card>p{margin:0 0 22px}
+.auth-foot{text-align:center;color:var(--muted);font-size:12.5px;margin:20px 0 0}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:var(--accent);color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 12px -2px color-mix(in srgb,var(--accent) 55%,transparent)}
+.brand-mark .ic{stroke-width:2.2}
+.brand-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.brand-sub{font-size:12px;color:var(--muted)}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--line);padding:18px 12px 12px;z-index:40}
+.side .brand{padding:0 8px 20px}
+.nav-group{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:14px 10px 6px}
+.nav{display:flex;align-items:center;gap:11px;width:100%;height:36px;padding:0 10px;border:0;background:none;border-radius:8px;color:var(--text-2);font-weight:500;cursor:pointer;text-align:left}
+.nav:hover{background:var(--surface-2);color:var(--text)}
+.nav .ic{color:var(--muted)}
+.nav span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav.on .ic{color:var(--accent)}
+.nav .badge{margin-left:auto;height:20px;padding:0 7px;font-size:11px}
+.side .spacer{flex:1}
+.me{display:flex;align-items:center;gap:10px;padding:10px 8px 2px;border-top:1px solid var(--line);margin-top:10px}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--accent-soft);color:var(--accent);flex:none}
+.me .who{min-width:0;flex:1}
+.me .who div:first-child{font-weight:600;font-size:13.5px}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;height:60px;padding:0 28px;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .menu{display:none}
+.top h1{font-size:17px;margin:0;letter-spacing:-.01em;font-weight:700}
+.top .crumb{color:var(--muted);font-size:13px}
+.kbtn{display:flex;align-items:center;gap:10px;height:36px;padding:0 8px 0 12px;width:280px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:13px;box-shadow:var(--shadow-sm)}
+.kbtn:hover{border-color:var(--accent-line)}
+.kbtn span{flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sync{font-size:12px;color:var(--muted);white-space:nowrap}
+.content{padding:26px 28px 80px;max-width:1440px;width:100%}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.page-head h2{font-size:24px;margin:0;letter-spacing:-.02em}
+.page-head p{margin:4px 0 0;color:var(--muted);max-width:640px}
+.page-head .actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- cards ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 0}
+.card-h h3{font-size:14px;margin:0;font-weight:600}
+.card-h .sub{font-size:12.5px;color:var(--muted);font-weight:400}
+.card-b{padding:14px 18px 18px}
+.card-f{padding:12px 18px;border-top:1px solid var(--line);font-size:13px}
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols3{grid-template-columns:2fr 1fr}
+.kpi{padding:18px}
+.kpi .l{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500}
+.kpi .l .ico{width:28px;height:28px;border-radius:8px;display:grid;place-items:center}
+.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.03em;margin-top:10px;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12.5px;color:var(--muted);margin-top:4px}
+.stack{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--surface-3);gap:2px}
+.stack i{display:block;height:100%}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend b{color:var(--text);font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px}
+.blist{display:grid;gap:9px}
+.brow{display:grid;grid-template-columns:minmax(0,150px) 1fr 40px;gap:12px;align-items:center;font-size:13px;cursor:pointer;border-radius:6px}
+.brow:hover .nm{color:var(--accent)}
+.brow .t{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden}
+.brow .t i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.brow .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.mini{display:flex;flex-direction:column}
+.mini-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.mini-row:first-child{border-top:0;padding-top:2px}
+.mini-row:hover .mr-t{color:var(--accent)}
+.mini-row .mr-m{min-width:0;flex:1}
+.mr-t{font-weight:600;font-size:13.5px}
+.mr-s{font-size:12.5px;color:var(--muted)}
+.check-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);cursor:pointer;font-size:13.5px}
+.check-row:first-child{border-top:0;padding-top:0}
+.check-row:hover span:first-child{color:var(--accent)}
+
+/* ---------- toolbar, chips, tabelas ---------- */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar select.input{width:auto;min-width:160px;max-width:260px}
+.chips{display:inline-flex;padding:3px;gap:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;flex-wrap:wrap}
+.chip{height:30px;padding:0 11px;border:0;border-radius:7px;background:none;cursor:pointer;color:var(--muted);font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:6px}
+.chip:hover{color:var(--text)}
+.chip.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.chip .n{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tbl-wrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.tbl-scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{background:var(--surface-2);font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+th.sort{cursor:pointer;user-select:none}
+th.sort:hover{color:var(--text)}
+th .arr{opacity:.9;margin-left:3px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--surface-2)}
+tbody tr.sel td{background:var(--accent-soft)}
+td .sub{font-size:12px;color:var(--muted)}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;vertical-align:middle}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);background:var(--surface)}
+.pager .pg{display:flex;gap:6px}
+.empty{padding:48px 20px;text-align:center;color:var(--muted)}
+.empty .ic{width:28px;height:28px;margin-bottom:8px;opacity:.6}
+.empty b{display:block;color:var(--text);font-size:14px;margin-bottom:3px}
+
+/* ---------- células de vagas ---------- */
+.cells{display:inline-flex;gap:3px;vertical-align:middle}
+.cell{width:14px;height:14px;border-radius:4px;background:var(--accent)}
+.cell.f{background:var(--free-cell);box-shadow:inset 0 0 0 1.5px var(--ok-cell)}
+.cell.r{background:var(--res);opacity:.8;background-image:repeating-linear-gradient(135deg,transparent 0 3px,rgba(255,255,255,.35) 3px 5px)}
+.cells.lg{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:100%}
+.cells.lg .cell{width:auto;height:8px;border-radius:3px}
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+.acc{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;box-shadow:var(--shadow);transition:border-color .12s,transform .12s,box-shadow .12s}
+.acc:hover{border-color:var(--accent-line);box-shadow:0 4px 16px -6px rgba(16,24,40,.18)}
+.acc .acc-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.acc .acc-n{font-weight:700;font-size:14px}
+.acc .acc-d{font-size:12px;color:var(--muted)}
+.acc .acc-cli{font-size:12.5px;color:var(--text-2);min-height:19px}
+
+/* ---------- camadas: drawer, modal, palette, toast ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:60;animation:fade .15s ease}
+@keyframes fade{from{opacity:0}}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);z-index:61;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);animation:slide .2s cubic-bezier(.2,.8,.2,1)}
+@keyframes slide{from{transform:translateX(30px);opacity:0}}
+.drawer-h{display:flex;align-items:center;gap:12px;padding:18px 20px;background:var(--surface);border-bottom:1px solid var(--line)}
+.drawer-b{flex:1;overflow:auto;padding:20px;display:grid;gap:16px;align-content:start}
+.sec-t{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;display:flex;align-items:center;justify-content:space-between}
+.cred{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cred:last-child{border-bottom:0}
+.cred .k{width:58px;font-size:12.5px;color:var(--muted);flex:none}
+.cred .v{flex:1;min-width:0}
+.pwbar{height:2px;background:var(--accent);transform-origin:left;animation:shrink 30s linear forwards}
+@keyframes shrink{to{transform:scaleX(0)}}
+.slot{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow-sm)}
+.slot.free{border-style:dashed;border-color:var(--line-2);background:transparent;box-shadow:none}
+.slot.res{background:var(--res-soft);border-color:transparent}
+.slot-h{display:flex;align-items:center;gap:10px}
+.slot-n{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-weight:700;font-size:12.5px;background:var(--accent-soft);color:var(--accent);flex:none}
+.slot.free .slot-n{background:var(--ok-soft);color:var(--ok)}
+.slot.res .slot-n{background:var(--surface);color:var(--res)}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:6px 12px;margin-top:12px;font-size:13px}
+.kv>span:nth-child(odd){color:var(--muted)}
+.slot-a{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.modal-wrap{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:16px;overflow:auto}
+.modal{width:min(520px,100%);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);animation:pop .16s cubic-bezier(.2,.8,.2,1)}
+.modal.wide{width:min(720px,100%)}
+@keyframes pop{from{transform:scale(.97);opacity:0}}
+.modal-h{padding:20px 22px 0;display:flex;gap:12px;align-items:flex-start}
+.modal-h h3{margin:0;font-size:17px;letter-spacing:-.01em}
+.modal-h p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.modal-b{padding:18px 22px}
+.modal-f{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;background:var(--surface-2);border-radius:0 0 16px 16px}
+.m-ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none}
+.palette{position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:min(620px,calc(100% - 32px));z-index:71;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;animation:pop .14s ease}
+.palette-in{display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line)}
+.palette-in input{flex:1;height:54px;border:0;outline:none;background:none;font-size:15px}
+.palette-r{max-height:56vh;overflow:auto;padding:6px}
+.pr-g{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
+.pr{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:9px;cursor:pointer}
+.pr.on{background:var(--accent-soft)}
+.pr .ic{color:var(--muted)}
+.pr .t{font-weight:600;font-size:13.5px}
+.pr .s{font-size:12px;color:var(--muted)}
+.palette-f{display:flex;gap:14px;padding:9px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--surface-2)}
+.toasts{position:fixed;bottom:20px;right:20px;z-index:90;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.toast{display:flex;align-items:center;gap:10px;min-width:220px;max-width:420px;padding:11px 14px;border-radius:11px;background:var(--text);color:var(--bg);font-weight:500;font-size:13.5px;box-shadow:var(--shadow-lg);animation:pop .16s ease}
+.toast.err{background:var(--bad);color:#fff}
+.toast .ic{flex:none}
+.selbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:35;display:flex;align-items:center;gap:14px;padding:10px 10px 10px 18px;background:var(--text);color:var(--bg);border-radius:14px;box-shadow:var(--shadow-lg);animation:pop .16s ease;max-width:calc(100% - 32px)}
+.selbar .btn.ghost{color:var(--bg)}
+.selbar .btn.ghost:hover{background:rgba(127,127,127,.2)}
+
+/* ---------- plano de ativação ---------- */
+.plan-row{display:grid;grid-template-columns:minmax(0,1.4fr) 1fr 1fr;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.plan-row:first-of-type{border-top:0}
+.steps{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.steps b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--surface-3);color:var(--text-2);font-size:11px;margin-right:6px}
+.steps .on b{background:var(--accent);color:var(--accent-ink)}
+.steps .on{color:var(--text);font-weight:600}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tab{height:40px;padding:0 12px;border:0;background:none;cursor:pointer;color:var(--muted);font-weight:600;font-size:13.5px;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.skel{background:linear-gradient(90deg,var(--surface-2),var(--surface-3),var(--surface-2));background-size:200% 100%;animation:sk 1.2s ease infinite;border-radius:8px}
+@keyframes sk{to{background-position:-200% 0}}
+
+/* ---------- responsivo ---------- */
+@media (max-width:1180px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .cols3{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:960px){
   .app{grid-template-columns:1fr}
-  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--line)}
-  .side .logo,.side .me,.side .grow{display:none}
-  .nav{width:auto} .main{padding:16px}
-  .hbar{grid-template-columns:110px 1fr 34px} .two{grid-template-columns:1fr} .plan-row{grid-template-columns:1fr}
-  .tw{max-height:none}
+  .side{position:fixed;left:0;top:0;bottom:0;width:272px;transform:translateX(-100%);transition:transform .2s ease;box-shadow:var(--shadow-lg)}
+  .side.open{transform:none}
+  .top{padding:0 16px}
+  .top .menu{display:inline-grid}
+  .kbtn{width:auto}
+  .kbtn span,.kbtn kbd,.sync{display:none}
+  .content{padding:18px 16px 90px}
+  .cols2{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:14px} .kpi .v{font-size:24px}
+  .form .two{grid-template-columns:1fr}
+  .plan-row{grid-template-columns:1fr}
+  .page-head h2{font-size:20px}
+  .hide-sm{display:none}
+  .toasts{left:16px;right:16px;align-items:stretch}
+  .searchbox{max-width:none;flex-basis:100%}
+  .toolbar select.input{flex:1}
 }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <div id="layer"></div>
+<div class="toasts" id="toasts"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script>
+'use strict';
 
-/* ---------- ícones ---------- */
+/* =====================================================================
+   ÍCONES
+   ===================================================================== */
 const P = {
-  dash:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
+  dash:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
   key:'<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2"/><path d="m16 7 3 3"/>',
   pc:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
-  plus:'<circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  plusc:'<circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>',
   rec:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
   shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
   clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
@@ -167,16 +366,83 @@ const P = {
   dl:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
   out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
   edit:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
-  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'
+  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  refresh:'<path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  swap:'<path d="M7 16V4M7 4 3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  unlock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>'
 };
-const ic = n => `<svg class="ic" viewBox="0 0 24 24">${P[n]||''}</svg>`;
+const ic = (n, cls='') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]||''}</svg>`;
 
-/* ---------- dados (Supabase) ---------- */
+/* =====================================================================
+   UTILIDADES
+   ===================================================================== */
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const todayIso = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset()*6e4).toISOString().slice(0,10); };
+const fmt = d => d ? d.split('-').reverse().join('/') : '—';
+const ageDays = d => d ? Math.floor((Date.now() - new Date(d + 'T00:00:00')) / 864e5) : null;
+const ageTxt = n => n == null ? '—' : n < 31 ? `${n} dia${n===1?'':'s'}` : n < 365 ? `${Math.floor(n/30)} ${Math.floor(n/30)===1?'mês':'meses'}` : (y => `${y.replace('.',',')} ano${+y>=2?'s':''}`)((n/365).toFixed(1));
+const num = e => parseInt((String(e).match(/(\d+)@/) || [0,0])[1], 10);
+const user = e => String(e).split('@')[0];
+const domain = e => '@' + String(e).split('@')[1];
+const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const plural = (n, s, p) => `${n} ${n===1 ? s : (p || s + 's')}`;
+const nf = n => Number(n).toLocaleString('pt-BR');
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const timeHM = t => new Date(t).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+function relTime(t){
+  const s = (Date.now() - new Date(t)) / 1000;
+  if (s < 60) return 'agora';
+  if (s < 3600) return `há ${Math.floor(s/60)} min`;
+  if (s < 86400) return `há ${Math.floor(s/3600)} h`;
+  if (s < 172800) return 'ontem';
+  return new Date(t).toLocaleDateString('pt-BR');
+}
+function toast(msg, type='ok'){
+  const t = document.createElement('div');
+  t.className = 'toast' + (type === 'err' ? ' err' : '');
+  t.innerHTML = ic(type === 'err' ? 'alert' : type === 'info' ? 'info' : 'check') + `<span>${esc(msg)}</span>`;
+  $('#toasts').appendChild(t);
+  setTimeout(() => { t.style.transition = 'opacity .25s'; t.style.opacity = 0; setTimeout(() => t.remove(), 260); }, type === 'err' ? 5000 : 2600);
+}
+function copy(txt, label='Copiado'){
+  const fb = () => { const t = document.createElement('textarea'); t.value = txt; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); toast(label); } catch(e){ toast('Não foi possível copiar', 'err'); } t.remove(); };
+  try { navigator.clipboard.writeText(txt).then(() => toast(label), fb); } catch(e){ fb(); }
+}
+async function busy(btn, fn){
+  if (btn) btn.classList.add('busy');
+  try { return await fn(); } finally { if (btn && btn.isConnected) btn.classList.remove('busy'); }
+}
+const errMsg = e => {
+  const m = (e && (e.message || e.error_description)) || String(e);
+  if (/Failed to fetch|NetworkError/i.test(m)) return 'Sem conexão com o servidor. Verifique a internet.';
+  if (/JWT expired/i.test(m)) return 'Sua sessão expirou. Entre novamente.';
+  return m;
+};
+
+/* =====================================================================
+   ESTADO E DADOS (Supabase)
+   ===================================================================== */
 const CONFIGURADO = /^https:\/\/.+\.supabase\.co/.test(window.SUPABASE_URL || '') && !!window.SUPABASE_KEY && !/COLE_AQUI/.test(window.SUPABASE_KEY);
 const sb = CONFIGURADO ? supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY, {auth:{persistSession:true, autoRefreshToken:true}}) : null;
 const PERFIL = {admin:'Administrador', operador:'Operador', consulta:'Consulta'};
-let DB = {accounts: []};
-let me = null;
+const S = { me:null, accounts:[], byId:{}, slotById:{}, loadedAt:0, view:'painel' };
+const canEdit = () => !!S.me && S.me.perfil !== 'consulta';
+const isAdmin = () => !!S.me && S.me.perfil === 'admin';
+
 async function fetchAll(mk){
   let out = [], from = 0;
   for (;;){
@@ -189,517 +455,897 @@ async function fetchAll(mk){
   return out;
 }
 async function loadData(){
-  const contas = await fetchAll((a,b) => sb.from('contas').select('id,email').order('id').range(a,b));
-  const vagas = await fetchAll((a,b) => sb.from('vagas').select('id,conta_id,n,status,hostname,serial,data_ativacao,data_incerta,proposta,obs,clientes(nome)').order('id').range(a,b));
-  const by = {};
+  const [contas, vagas] = await Promise.all([
+    fetchAll((a,b) => sb.from('contas').select('id,email').order('id').range(a,b)),
+    fetchAll((a,b) => sb.from('vagas').select('id,conta_id,n,status,hostname,serial,data_ativacao,data_incerta,proposta,obs,atualizado_em,clientes(nome)').order('id').range(a,b))
+  ]);
+  const by = {}, sl = {};
   contas.forEach(c => by[c.id] = {id:c.id, email:c.email, slots:[]});
-  vagas.forEach(v => { const a = by[v.conta_id]; if (a) a.slots.push({id:v.id, n:v.n, st:v.status, cli:v.clientes ? v.clientes.nome : '', orig:'', serial:v.serial||'', host:v.hostname||'', data:v.data_ativacao, inc:v.data_incerta, prop:v.proposta||'', obs:v.obs||''}); });
+  vagas.forEach(v => {
+    const a = by[v.conta_id]; if (!a) return;
+    const s = {id:v.id, n:v.n, st:v.status, cli:v.clientes ? v.clientes.nome : '', serial:v.serial||'', host:v.hostname||'',
+               data:v.data_ativacao, inc:v.data_incerta, prop:v.proposta||'', obs:v.obs||'', upd:v.atualizado_em, a};
+    a.slots.push(s); sl[s.id] = s;
+  });
   const accs = Object.values(by);
-  accs.forEach(a => a.slots.sort((x,y) => x.n - y.n));
+  accs.forEach(a => { a.slots.sort((x,y) => x.n - y.n); a.c = cnt(a); });
   accs.sort((a,b) => num(a.email) - num(b.email) || a.email.localeCompare(b.email));
-  DB.accounts = accs;
+  S.accounts = accs; S.byId = by; S.slotById = sl; S.loadedAt = Date.now();
+  computeDerived();
 }
-function logAdd(){} function save(){}
-let lastLoad = Date.now();
+function cnt(a){
+  let u = 0, f = 0, r = 0;
+  a.slots.forEach(s => { if (s.st === 'ativo') u++; else if (s.st === 'disponivel') f++; else r++; });
+  return {u, f, r, t:a.slots.length};
+}
+function computeDerived(){
+  const act = [], m = {};
+  S.accounts.forEach(a => a.slots.forEach(s => { if (s.st === 'ativo'){ act.push(s); m[s.cli] = (m[s.cli] || 0) + 1; } }));
+  S.active = act;
+  S.clients = Object.entries(m).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0]));
+  const serialMap = {};
+  act.forEach(s => { if (s.serial) (serialMap[s.serial.toUpperCase()] ||= []).push(s); });
+  S.q = {
+    dup: Object.entries(serialMap).filter(([k,v]) => v.length > 1),
+    inc: act.filter(s => s.inc).sort((a,b) => (a.data||'').localeCompare(b.data||'')),
+    noHost: act.filter(s => !s.host),
+    noSerial: act.filter(s => !s.serial),
+    noDate: act.filter(s => !s.data),
+    noClient: act.filter(s => /N[ÃA]O ENCONTRADO|VERIFICAR|DESCONHECIDO/i.test(s.cli))
+  };
+  S.qn = S.q.dup.length + S.q.noClient.length;
+  let u = 0, f = 0, r = 0, t = 0;
+  S.accounts.forEach(a => { u += a.c.u; f += a.c.f; r += a.c.r; t += a.c.t; });
+  S.tot = {u, f, r, t};
+}
 async function reload(quiet){
-  try { await loadData(); lastLoad = Date.now(); refresh(); if (!quiet) toast('Atualizado'); }
-  catch(e){ if (!quiet) toast('Erro ao atualizar: ' + e.message); }
+  try {
+    await loadData();
+    renderView(); if (S.drawer) drawAccount();
+    updateSync();
+    if (!quiet) toast('Dados atualizados');
+  } catch(e){ if (!quiet) toast('Erro ao atualizar: ' + errMsg(e), 'err'); }
 }
+async function rpc(name, args){
+  const {data, error} = await sb.rpc(name, args);
+  if (error) throw error;
+  return data;
+}
+
+/* =====================================================================
+   LOGIN / SESSÃO
+   ===================================================================== */
 async function init(){
-  if (!CONFIGURADO){ renderLogin(); return; }
+  if (!CONFIGURADO){ renderLogin('Configuração pendente: preencha o arquivo config.js com a URL e a chave do Supabase.'); return; }
   try {
     const {data:{session}} = await sb.auth.getSession();
     if (!session){ renderLogin(); return; }
     await enter();
-  } catch(e){ renderLogin('Não foi possível conectar: ' + e.message); }
+  } catch(e){ renderLogin('Não foi possível conectar: ' + errMsg(e)); }
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && S.me){ S.me = null; renderLogin('Sua sessão terminou. Entre novamente.'); } });
+}
+function renderLogin(msg=''){
+  closeAll();
+  $('#root').innerHTML = `
+  <div class="auth"><div class="auth-card">
+    <div class="brand"><span class="brand-mark">${ic('key')}</span><div><div class="brand-name">Licenças Office</div><div class="brand-sub">Controle interno · Low Cost</div></div></div>
+    <h1>Entrar</h1>
+    <p class="muted">Use o e-mail e a senha que o administrador cadastrou para você.</p>
+    <form class="form" id="lf" novalidate>
+      <div class="field"><label for="lu">E-mail</label><input class="input" type="email" id="lu" autocomplete="username" placeholder="voce@lowcost.com.br" autofocus></div>
+      <div class="field"><label for="lp">Senha</label><div class="pw"><input class="input" type="password" id="lp" autocomplete="current-password" placeholder="••••••••">
+        <button type="button" class="ibtn" title="Mostrar senha" onclick="const i=$('#lp');i.type=i.type==='password'?'text':'password';this.innerHTML=ic(i.type==='password'?'eye':'eyeoff')">${ic('eye')}</button></div></div>
+      <div class="alert err ${msg ? '' : 'hidden'}" id="le">${ic('alert')}<span>${esc(msg)}</span></div>
+      <button class="btn primary lg block" id="lb" ${CONFIGURADO ? '' : 'disabled'}>Entrar</button>
+    </form>
+    <p class="auth-foot">Esqueceu a senha ou precisa de acesso? Fale com o administrador.</p>
+  </div></div>`;
+  $('#lf').addEventListener('submit', doLogin);
+}
+function loginErr(m){ const e = $('#le'); e.classList.remove('hidden'); e.querySelector('span').textContent = m; }
+async function doLogin(ev){
+  ev.preventDefault();
+  if (!CONFIGURADO) return;
+  const em = $('#lu').value.trim(), p = $('#lp').value;
+  if (!em || !p){ loginErr('Informe e-mail e senha.'); return; }
+  await busy($('#lb'), async () => {
+    const {error} = await sb.auth.signInWithPassword({email:em, password:p});
+    if (error){ loginErr(/confirm/i.test(error.message) ? 'Este e-mail ainda não foi confirmado.' : /fetch/i.test(error.message) ? errMsg(error) : 'E-mail ou senha incorretos.'); return; }
+    try { await enter(); } catch(err){ renderLogin('Erro ao carregar: ' + errMsg(err)); }
+  });
 }
 async function enter(){
-  $('#root').innerHTML = '<div class="login-wrap"><div class="muted">Carregando…</div></div>';
-  const {data:{user}} = await sb.auth.getUser();
-  const {data:p, error} = await sb.from('perfis').select('id,nome,perfil,ativo').eq('id', user.id).maybeSingle();
-  if (error || !p || !p.ativo){ await sb.auth.signOut(); renderLogin('Seu usuário ainda não tem acesso. Peça ao administrador.'); return; }
-  me = {id:p.id, nome:p.nome || user.email, perfil:PERFIL[p.perfil] || 'Consulta'};
-  await loadData(); lastLoad = Date.now(); view = 'painel'; render();
+  $('#root').innerHTML = `<div class="auth"><div class="muted" style="display:flex;gap:10px;align-items:center"><span class="btn ghost busy" style="height:auto;padding:0"></span>Carregando licenças…</div></div>`;
+  const {data:{user:u}} = await sb.auth.getUser();
+  const {data:p, error} = await sb.from('perfis').select('id,nome,perfil,ativo').eq('id', u.id).maybeSingle();
+  if (error || !p || !p.ativo){ await sb.auth.signOut(); S.me = null; renderLogin('Seu usuário ainda não tem acesso. Peça ao administrador.'); return; }
+  S.me = {id:p.id, nome:p.nome || u.email, email:u.email, perfil:p.perfil};
+  await loadData();
+  renderShell();
+  route();
 }
-window.addEventListener('focus', () => { if (me && Date.now() - lastLoad > 30000) reload(true); });
+async function logout(){
+  const me = S.me; S.me = null;
+  try { await sb.auth.signOut(); } catch(e){}
+  S.accounts = []; renderLogin();
+}
 
-/* ---------- utilidades ---------- */
-const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const todayIso = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset()*6e4).toISOString().slice(0,10); };
-const fmt = d => d ? d.split('-').reverse().join('/') : '—';
-const ageDays = d => d ? Math.floor((Date.now() - new Date(d + 'T00:00:00')) / 864e5) : null;
-const num = e => parseInt((e.match(/(\d+)@/) || [0,0])[1], 10);
-const canEdit = () => me && me.perfil !== 'Consulta';
-const isAdmin = () => me && me.perfil === 'Administrador';
-const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
-const cnt = a => ({
-  u: a.slots.filter(s => s.st === 'ativo').length,
-  f: a.slots.filter(s => s.st === 'disponivel').length,
-  r: a.slots.filter(s => s.st === 'reservado').length
-});
-const allSlots = () => DB.accounts.flatMap(a => a.slots.map(s => ({a, s})));
-const activeSlots = () => allSlots().filter(x => x.s.st === 'ativo');
-function clientList(){
-  const m = {};
-  activeSlots().forEach(x => { m[x.s.cli] = (m[x.s.cli] || 0) + 1; });
-  return Object.entries(m).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0]));
-}
-function logAdd(acao, detalhe){
-  DB.log.unshift({t: new Date().toISOString(), user: me ? me.nome : '—', acao, detalhe});
-  if (DB.log.length > 500) DB.log.length = 500;
-}
-function toast(msg){
-  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
-  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
-}
-function copy(txt){
-  try { navigator.clipboard.writeText(txt).then(() => toast('Copiado!'), () => fb()); } catch(e){ fb(); }
-  function fb(){ const t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy'); toast('Copiado!');}catch(e){toast('Não foi possível copiar');} t.remove(); }
-}
-const dateTag = s => s.data ? `${fmt(s.data)}${s.inc ? ' <span class="badge b-warn" title="Data possivelmente com dia e mês trocados na planilha original. Confirme.">?</span>' : ''}` : '<span class="muted">sem data</span>';
-
-/* ---------- login ---------- */
-function renderLogin(msg=''){
-  $('#root').innerHTML = `
-  <div class="login-wrap"><form class="login" onsubmit="return doLogin(event)">
-    <div class="logo"><span class="mark">${ic('key')}</span> Controle de Licenças</div>
-    <h1>Entrar</h1><div class="muted">Acesso restrito à equipe.</div>
-    <div class="field"><label>E-mail</label><input type="text" id="lu" autocomplete="username" autofocus></div>
-    <div class="field"><label>Senha</label><input type="password" id="lp" autocomplete="current-password"></div>
-    <div class="err" id="le">${esc(msg || (CONFIGURADO ? '' : 'Configuração pendente: preencha o arquivo config.js com a URL e a chave do Supabase.'))}</div>
-    <button class="btn primary" style="width:100%;justify-content:center">Entrar</button>
-  </form></div>`;
-}
-async function doLogin(e){
-  e.preventDefault();
-  if (!CONFIGURADO) return false;
-  const em = $('#lu').value.trim(), p = $('#lp').value;
-  $('#le').textContent = 'Entrando…';
-  const {error} = await sb.auth.signInWithPassword({email:em, password:p});
-  if (error){ $('#le').textContent = 'E-mail ou senha incorretos.'; return false; }
-  try { await enter(); } catch(err){ renderLogin('Erro ao carregar: ' + err.message); }
-  return false;
-}
-async function logout(){ try { await sb.auth.signOut(); } catch(e){} me = null; DB.accounts = []; renderLogin(); }
-
-/* ---------- shell ---------- */
-let view = 'painel';
+/* =====================================================================
+   SHELL + ROTAS
+   ===================================================================== */
 const NAV = [
-  ['painel','dash','Painel'], ['contas','key','Contas'], ['maquinas','pc','Máquinas'],
-  ['alocar','plus','Nova ativação'], ['reciclar','rec','Reciclagem'], ['qualidade','shield','Qualidade dos dados'],
-  ['historico','clock','Histórico'], ['usuarios','users','Usuários']
+  ['Visão geral', [['painel','dash','Painel']]],
+  ['Licenças', [['contas','key','Contas'], ['maquinas','pc','Máquinas'], ['ativar','plusc','Nova ativação'], ['reciclar','rec','Reciclagem']]],
+  ['Controle', [['qualidade','shield','Qualidade dos dados'], ['historico','clock','Histórico'], ['usuarios','users','Usuários']]]
 ];
-function qualityIssues(){
-  const act = activeSlots();
-  const serialMap = {};
-  act.forEach(x => { if (x.s.serial) (serialMap[x.s.serial.toUpperCase()] ||= []).push(x); });
-  return {
-    dup: Object.entries(serialMap).filter(([k,v]) => v.length > 1),
-    noHost: act.filter(x => !x.s.host),
-    noSerial: act.filter(x => !x.s.serial),
-    noDate: act.filter(x => !x.s.data),
-    inc: act.filter(x => x.s.inc),
-    noClient: act.filter(x => /N[ÃA]O ENCONTRADO|VERIFICAR/i.test(x.s.cli))
-  };
-}
-function render(){
-  if (!me){ renderLogin(); return; }
-  const q = qualityIssues();
-  const qn = q.dup.length + q.noHost.length + q.noSerial.length + q.noClient.length;
+const TITLES = {painel:'Painel', contas:'Contas', maquinas:'Máquinas', ativar:'Nova ativação', reciclar:'Reciclagem', qualidade:'Qualidade dos dados', historico:'Histórico', usuarios:'Usuários'};
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+function renderShell(){
+  const me = S.me;
   $('#root').innerHTML = `
   <div class="app">
-    <aside class="side">
-      <div class="logo"><span class="mark">${ic('key')}</span> Licenças Office</div>
-      ${NAV.map(([id,i,l]) => `<button class="nav ${view===id?'on':''}" onclick="go('${id}')">${ic(i)} ${l}${id==='qualidade'&&qn?`<span class="badge b-warn">${qn}</span>`:''}</button>`).join('')}
-      <div class="grow"></div>
-      <div class="me"><div class="avatar">${esc(me.nome[0]||'?').toUpperCase()}</div>
-        <div style="min-width:0"><div style="font-weight:700">${esc(me.nome)}</div><div class="muted small">${esc(me.perfil)}</div></div>
-        <button class="ibtn" style="margin-left:auto" title="Tema" onclick="toggleTheme()">${ic('moon')}</button>
-        <button class="ibtn" title="Sair" onclick="logout()">${ic('out')}</button></div>
+    <aside class="side" id="side">
+      <div class="brand"><span class="brand-mark">${ic('key')}</span><div><div class="brand-name">Licenças Office</div><div class="brand-sub">Low Cost</div></div></div>
+      <nav id="nav"></nav>
+      <div class="spacer"></div>
+      <div class="me">
+        <div class="avatar">${esc((me.nome[0]||'?').toUpperCase())}</div>
+        <div class="who"><div class="trunc">${esc(me.nome)}</div><div class="muted small">${esc(PERFIL[me.perfil])}</div></div>
+        <button class="ibtn" id="themeBtn" title="Alternar tema" onclick="toggleTheme()"></button>
+        <button class="ibtn" title="Sair" onclick="logout()">${ic('out')}</button>
+      </div>
     </aside>
-    <main class="main" id="main"></main>
+    <div class="main">
+      <header class="top">
+        <button class="ibtn menu" onclick="toggleSide()" aria-label="Menu">${ic('menu')}</button>
+        <h1 id="ttl"></h1>
+        <div class="grow"></div>
+        <button class="kbtn" onclick="openPalette()">${ic('search','sm')}<span>Buscar conta, máquina, cliente…</span><kbd>${isMac ? '⌘' : 'Ctrl'} K</kbd></button>
+        <span class="sync" id="sync"></span>
+        <button class="ibtn" title="Atualizar dados" onclick="busy(this, () => reload())">${ic('refresh')}</button>
+      </header>
+      <div class="content" id="view"></div>
+    </div>
   </div>`;
-  const R = {painel:vPainel, contas:vContas, maquinas:vMaquinas, alocar:vAlocar, reciclar:vReciclar, qualidade:vQualidade, historico:vHistorico, usuarios:vUsuarios};
-  (R[view] || vPainel)();
+  paintTheme(); updateSync();
 }
-function go(v){ view = v; render(); closeLayer(); window.scrollTo(0,0); }
+function renderNav(){
+  const n = $('#nav'); if (!n) return;
+  n.innerHTML = NAV.map(([g, items]) => `<div class="nav-group">${g}</div>` + items.map(([id, i, l]) =>
+    `<button class="nav ${S.view===id?'on':''}" onclick="go('${id}')">${ic(i)}<span>${l}</span>${id==='qualidade' && S.qn ? `<span class="badge b-warn">${S.qn}</span>` : ''}</button>`).join('')).join('');
+}
+function updateSync(){ const e = $('#sync'); if (e && S.loadedAt) e.textContent = 'Atualizado às ' + timeHM(S.loadedAt); }
+function go(v){ if (location.hash !== '#/' + v) location.hash = '#/' + v; else route(); }
+function route(){
+  if (!S.me) return;
+  const v = (location.hash.match(/^#\/(\w+)/) || [])[1];
+  S.view = VIEWS[v] ? v : 'painel';
+  closeSide();
+  renderView();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+function renderView(){
+  if (!S.me || !$('#view')) return;
+  renderNav();
+  $('#ttl').textContent = TITLES[S.view];
+  document.title = TITLES[S.view] + ' · Licenças Office';
+  VIEWS[S.view]();
+}
+function toggleSide(){ const s = $('#side'); s.classList.toggle('open'); if (s.classList.contains('open')) $('#layer').insertAdjacentHTML('beforeend', '<div class="scrim" id="sideScrim" onclick="closeSide()" style="z-index:39"></div>'); else closeSide(); }
+function closeSide(){ const s = $('#side'); if (s) s.classList.remove('open'); const k = $('#sideScrim'); if (k) k.remove(); }
+function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function toggleTheme(){
-  const el = document.documentElement, dark = getComputedStyle(el).getPropertyValue('--bg').trim() === '#0f141b';
-  el.setAttribute('data-theme', dark ? 'light' : 'dark');
+  const t = isDark() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('tema', t); } catch(e){}
+  paintTheme();
 }
-function head(t, sub, extra=''){
-  return `<div class="head"><div><h2>${t}</h2><p>${sub}</p></div><div class="row wrap"><button class="btn sm" onclick="reload()">Atualizar</button>${extra}</div></div>`;
+function paintTheme(){ const b = $('#themeBtn'); if (b) b.innerHTML = ic(isDark() ? 'sun' : 'moon'); }
+function pageHead(title, sub, actions=''){
+  return `<div class="page-head"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div>${actions ? `<div class="actions">${actions}</div>` : ''}</div>`;
+}
+function emptyBox(icon, title, text=''){ return `<div class="empty">${ic(icon)}<b>${title}</b>${text}</div>`; }
+function pager(total, page, size, fn){
+  const pages = Math.ceil(total / size);
+  if (pages <= 1) return `<div class="pager"><span>${plural(total, 'item', 'itens')}</span></div>`;
+  return `<div class="pager"><span>${nf(page*size+1)}–${nf(Math.min(total,(page+1)*size))} de ${nf(total)}</span><div class="pg">
+    <button class="btn sm" ${page ? '' : 'disabled'} onclick="${fn}(${page-1})">Anterior</button>
+    <button class="btn sm" ${page < pages-1 ? '' : 'disabled'} onclick="${fn}(${page+1})">Próxima</button></div></div>`;
+}
+const cellsHtml = (a, lg) => `<span class="cells ${lg?'lg':''}">${a.slots.map(s => `<i class="cell ${s.st==='disponivel'?'f':s.st==='reservado'?'r':''}" title="Vaga ${s.n}: ${s.st==='ativo' ? esc(s.cli) : s.st==='disponivel' ? 'livre' : 'reservada'}"></i>`).join('')}</span>`;
+const dateTag = s => s.data ? `${fmt(s.data)}${s.inc ? ` <span class="badge b-warn" title="Dia e mês podem estar trocados (veio da planilha). Confirme em Qualidade dos dados.">?</span>` : ''}` : '<span class="muted">sem data</span>';
+const slotRef = s => `${esc(user(s.a.email))} <span class="muted">· vaga ${s.n}</span>`;
+function statusBadges(c){
+  return (c.r ? `<span class="badge b-res">${ic('lock')}${c.r} reserv.</span> ` : '') +
+         (c.f ? `<span class="badge b-ok dotb">${plural(c.f,'livre')}</span>` : (!c.r ? '<span class="badge">cheia</span>' : ''));
 }
 
-/* ---------- painel ---------- */
+/* =====================================================================
+   PAINEL
+   ===================================================================== */
 function vPainel(){
-  const A = DB.accounts, tot = A.length * 5;
-  let u=0,f=0,r=0; A.forEach(a => { const c = cnt(a); u+=c.u; f+=c.f; r+=c.r; });
-  const withFree = A.filter(a => cnt(a).f > 0).sort((a,b) => cnt(b).f - cnt(a).f || num(a.email)-num(b.email));
-  const cl = clientList(), max = cl[0] ? cl[0][1] : 1;
-  const old = activeSlots().filter(x => x.s.data).sort((a,b) => a.s.data.localeCompare(b.s.data)).slice(0,8);
-  const q = qualityIssues();
-  $('#main').innerHTML = head('Painel', 'Visão geral das licenças Office') + `
+  const T = S.tot, A = S.accounts;
+  const withFree = A.filter(a => a.c.f > 0).sort((a,b) => b.c.f - a.c.f || num(a.email) - num(b.email));
+  const cl = S.clients, max = cl[0] ? cl[0][1] : 1;
+  const old = S.active.filter(s => s.data).sort((a,b) => a.data.localeCompare(b.data)).slice(0, 6);
+  const q = S.q, hi = new Date().getHours();
+  const hello = hi < 12 ? 'Bom dia' : hi < 18 ? 'Boa tarde' : 'Boa noite';
+  $('#view').innerHTML = pageHead(`${hello}, ${esc(S.me.nome.split(' ')[0])}`, 'Resumo das licenças Office neste momento.',
+    canEdit() ? `<button class="btn primary" onclick="go('ativar')">${ic('plus')} Nova ativação</button>` : '') + `
   <div class="grid kpis">
-    <div class="card kpi"><div class="l">Contas de e-mail</div><div class="v">${A.length}</div><div class="s">${tot} vagas no total (5 por conta)</div></div>
-    <div class="card kpi"><div class="l">Máquinas ativas</div><div class="v">${u}</div><div class="s">${Math.round(u/tot*100)}% da capacidade</div></div>
-    <div class="card kpi"><div class="l">Vagas livres</div><div class="v" style="color:var(--ok)">${f}</div><div class="s">em ${withFree.length} contas</div></div>
-    <div class="card kpi"><div class="l">Reservadas (outro depto.)</div><div class="v" style="color:var(--res)">${r}</div><div class="s">bloqueadas para uso</div></div>
+    ${kpi('key','var(--text-2)','var(--surface-2)','Contas de e-mail', nf(A.length), `${nf(T.t)} vagas no total`)}
+    ${kpi('pc','var(--accent)','var(--accent-soft)','Máquinas ativas', nf(T.u), `${pct(T.u,T.t)}% da capacidade`)}
+    ${kpi('unlock','var(--ok)','var(--ok-soft)','Vagas livres', nf(T.f), `em ${plural(withFree.length,'conta')}`, 'var(--ok)')}
+    ${kpi('lock','var(--res)','var(--res-soft)','Reservadas', nf(T.r), 'outro departamento', 'var(--res)')}
   </div>
-  <div class="card" style="margin-top:14px"><h3>Capacidade</h3>
-    <div class="bar"><i style="width:${u/tot*100}%;background:var(--accent)"></i><i style="width:${r/tot*100}%;background:var(--res)"></i><i style="width:${f/tot*100}%;background:var(--ok)"></i></div>
-    <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>Em uso <b>${u}</b></span><span><i class="sw" style="background:var(--res)"></i>Reservadas <b>${r}</b></span><span><i class="sw" style="background:var(--ok)"></i>Livres <b>${f}</b></span></div>
-    ${f < 15 ? `<div class="warnbox">Poucas vagas livres (${f}). A próxima ativação provavelmente exigirá <b>reciclagem</b> das licenças mais antigas.</div>` : ''}
+  <div class="card" style="margin-top:16px"><div class="card-h"><h3>Ocupação</h3><span class="sub">${pct(T.u+T.r,T.t)}% ocupado</span></div><div class="card-b">
+    <div class="stack"><i style="width:${T.u/T.t*100}%;background:var(--accent)"></i><i style="width:${T.r/T.t*100}%;background:var(--res)"></i><i style="width:${T.f/T.t*100}%;background:var(--ok-cell)"></i></div>
+    <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>Em uso <b>${nf(T.u)}</b></span><span><i class="sw" style="background:var(--res)"></i>Reservadas <b>${nf(T.r)}</b></span><span><i class="sw" style="background:var(--ok-cell)"></i>Livres <b>${nf(T.f)}</b></span></div>
+    ${T.f < 15 ? `<div class="alert warn" style="margin-top:14px">${ic('alert')}<div>Restam só <b>${plural(T.f,'vaga livre','vagas livres')}</b>. As próximas ativações vão precisar de <a href="#/reciclar">reciclagem</a> das licenças mais antigas.</div></div>` : ''}
+  </div></div>
+  <div class="grid cols2" style="margin-top:16px">
+    <div class="card"><div class="card-h"><h3>Contas com vaga livre</h3><a class="small" href="#/contas" onclick="CV.f='vaga'">Ver todas</a></div><div class="card-b"><div class="mini">
+      ${withFree.length ? withFree.slice(0,6).map(a => `<div class="mini-row" onclick="openAccount(${a.id})">${cellsHtml(a)}<div class="mr-m"><div class="mr-t mono trunc">${esc(a.email)}</div></div><span class="badge b-ok">${plural(a.c.f,'livre')}</span></div>`).join('')
+        : emptyBox('rec','Nenhuma vaga livre','Use a reciclagem para liberar licenças antigas.')}
+    </div></div></div>
+    <div class="card"><div class="card-h"><h3>Clientes com mais máquinas</h3><a class="small" href="#/maquinas">Ver máquinas</a></div><div class="card-b"><div class="blist">
+      ${cl.slice(0,8).map(([n,c], i) => `<div class="brow" onclick="goCli(${i})"><span class="nm trunc" title="${esc(n)}">${esc(n)}</span><span class="t"><i style="width:${c/max*100}%"></i></span><span class="n">${c}</span></div>`).join('') || emptyBox('pc','Nenhuma máquina ativa')}
+    </div></div></div>
+    <div class="card"><div class="card-h"><h3>Ativações mais antigas</h3><a class="small" href="#/reciclar">Reciclagem</a></div><div class="card-b"><div class="mini">
+      ${old.map(s => `<div class="mini-row" onclick="openAccount(${s.a.id})"><div class="mr-m"><div class="mr-t trunc">${esc(s.cli)}</div><div class="mr-s trunc"><span class="mono">${esc(s.host||'sem hostname')}</span> · ${slotRef(s)}</div></div><div class="right"><div class="small strong">${fmt(s.data)}</div><div class="mr-s">${ageTxt(ageDays(s.data))}</div></div></div>`).join('') || emptyBox('clock','Sem ativações com data')}
+    </div></div></div>
+    <div class="card"><div class="card-h"><h3>Atenção nos dados</h3><a class="small" href="#/qualidade">Detalhes</a></div><div class="card-b">
+      ${[['dup','Seriais duplicados','b-bad'],['inc','Datas para confirmar','b-warn'],['noClient','Cliente não identificado','b-warn'],['noHost','Máquinas sem hostname','b-warn'],['noSerial','Máquinas sem serial','b-warn']]
+        .map(([k,l,c]) => `<div class="check-row" onclick="QV.tab='${k}';go('qualidade')"><span>${l}</span><span class="badge ${q[k].length ? c : 'b-ok'}">${q[k].length ? q[k].length : ic('check')}</span></div>`).join('')}
+    </div></div>
   </div>
-  <div class="grid cols2" style="margin-top:14px">
-    <div class="card"><h3>Contas com vaga livre</h3>
-      ${withFree.length ? `<table><tbody>${withFree.slice(0,8).map(a => `<tr class="click" onclick="openAccount('${a.email}')"><td class="mono">${esc(a.email)}</td><td>${dots(a)}</td><td><span class="badge b-ok">${cnt(a).f} livre${cnt(a).f>1?'s':''}</span></td></tr>`).join('')}</tbody></table>
-      ${withFree.length > 8 ? `<div class="count">+ ${withFree.length-8} contas · <a href="#" onclick="go('contas');setF('vaga');return false">ver todas</a></div>` : ''}` : '<div class="empty">Nenhuma vaga livre. Use a reciclagem.</div>'}
-    </div>
-    <div class="card"><h3>Clientes com mais máquinas</h3>
-      ${cl.slice(0,9).map(([n,c]) => `<div class="hbar"><span class="nm" title="${esc(n)}">${esc(n)}</span><span class="t"><i style="width:${c/max*100}%"></i></span><span class="n">${c}</span></div>`).join('')}
-    </div>
-    <div class="card"><h3>Ativações mais antigas <span class="muted small">(candidatas à reciclagem)</span></h3>
-      <table><tbody>${old.map(x => `<tr class="click" onclick="openAccount('${x.a.email}')"><td>${esc(x.s.cli)}</td><td class="mono">${esc(x.s.host||'—')}</td><td>${fmt(x.s.data)}</td><td><span class="badge b-n">${ageDays(x.s.data)} dias</span></td></tr>`).join('')}</tbody></table>
-      <div class="count"><a href="#" onclick="go('reciclar');return false">Abrir reciclagem</a></div>
-    </div>
-    <div class="card"><h3>Atenção nos dados</h3>
-      <div class="row between" style="padding:6px 0"><span>Seriais duplicados</span><span class="badge ${q.dup.length?'b-bad':'b-ok'}">${q.dup.length}</span></div>
-      <div class="row between" style="padding:6px 0"><span>Máquinas sem hostname</span><span class="badge ${q.noHost.length?'b-warn':'b-ok'}">${q.noHost.length}</span></div>
-      <div class="row between" style="padding:6px 0"><span>Máquinas sem serial</span><span class="badge ${q.noSerial.length?'b-warn':'b-ok'}">${q.noSerial.length}</span></div>
-      <div class="row between" style="padding:6px 0"><span>Cliente não identificado</span><span class="badge ${q.noClient.length?'b-warn':'b-ok'}">${q.noClient.length}</span></div>
-      <div class="row between" style="padding:6px 0"><span>Datas para confirmar</span><span class="badge b-warn">${q.inc.length}</span></div>
-      <div class="count"><a href="#" onclick="go('qualidade');return false">Ver detalhes</a></div>
-    </div>
-  </div>`;
+  <div class="card" style="margin-top:16px"><div class="card-h"><h3>Atividade recente</h3><a class="small" href="#/historico">Histórico completo</a></div><div class="card-b"><div class="mini" id="recent"><div class="skel" style="height:120px"></div></div></div></div>`;
+  loadRecent();
 }
-function dots(a){ return `<span class="dots">${a.slots.map(s => `<i class="dot ${s.st==='disponivel'?'f':s.st==='reservado'?'r':''}"></i>`).join('')}</span> <span class="small muted">${cnt(a).u}/5</span>`; }
+function kpi(icon, fg, bg, label, value, sub, color){
+  return `<div class="card kpi"><div class="l"><span class="ico" style="color:${fg};background:${bg}">${ic(icon,'sm')}</span>${label}</div>
+    <div class="v" ${color ? `style="color:${color}"` : ''}>${value}</div><div class="s">${sub}</div></div>`;
+}
+async function loadRecent(){
+  const {data, error} = await sb.from('historico').select('quando,usuario_nome,acao,detalhe').order('quando', {ascending:false}).limit(6);
+  const el = $('#recent'); if (!el) return;
+  if (error){ el.innerHTML = `<div class="muted small">Não foi possível carregar: ${esc(errMsg(error))}</div>`; return; }
+  el.innerHTML = (data || []).map(l => `<div class="mini-row" style="cursor:default"><span class="avatar" style="width:30px;height:30px;font-size:12px">${esc((l.usuario_nome||'?')[0].toUpperCase())}</span>
+    <div class="mr-m"><div class="small"><b>${esc(l.usuario_nome || 'Sistema')}</b> · ${esc(l.acao)}</div><div class="mr-s trunc">${esc(l.detalhe)}</div></div><span class="mr-s nowrap">${relTime(l.quando)}</span></div>`).join('')
+    || emptyBox('clock','Nenhuma ação registrada ainda');
+}
+function goCli(i){ MV.cli = S.clients[i][0]; MV.page = 0; go('maquinas'); }
 
-/* ---------- contas ---------- */
-let F = {contas:'todas', q:'', maq:'', cli:'', rq:'', rage:'0', rcli:''};
-function setF(v){ F.contas = v; if (view === 'contas') vContas(); }
+/* =====================================================================
+   CONTAS
+   ===================================================================== */
+const CV = {q:'', f:'todas', mode:(() => { try { return localStorage.getItem('contasModo') || 'grade'; } catch(e){ return 'grade'; } })()};
+function contasFilter(a, f){
+  const c = a.c;
+  if (f === 'vaga') return c.f > 0;
+  if (f === 'cheia') return !c.f;
+  if (f === 'reservada') return c.r > 0;
+  return true;
+}
 function vContas(){
-  const q = norm(F.q);
-  let L = DB.accounts.filter(a => {
-    const c = cnt(a);
-    if (F.contas === 'vaga' && !c.f) return false;
-    if (F.contas === 'cheia' && (c.f || c.r)) return false;
-    if (F.contas === 'reservada' && !c.r) return false;
-    if (q && !norm(a.email + ' ' + a.slots.map(s => [s.cli,s.host,s.serial].join(' ')).join(' ')).includes(q)) return false;
-    return true;
-  });
-  const chips = [['todas','Todas'],['vaga','Com vaga livre'],['cheia','Cheias'],['reservada','Com reservadas']];
-  $('#main').innerHTML = head('Contas', 'Cada conta de e-mail comporta até 5 máquinas') + `
-  <div class="tools">
-    <input type="search" class="search" id="cq" placeholder="Buscar e-mail, cliente, hostname ou serial…" value="${esc(F.q)}" oninput="F.q=this.value;vContasBody()">
-    <div class="chips">${chips.map(([k,l]) => `<button class="chip ${F.contas===k?'on':''}" onclick="setF('${k}')">${l}</button>`).join('')}</div>
+  const chips = [['todas','Todas'],['vaga','Com vaga'],['cheia','Cheias'],['reservada','Com reservadas']];
+  $('#view').innerHTML = pageHead('Contas', 'Cada conta de e-mail comporta até 5 máquinas. Clique em uma conta para ver a senha e as vagas.',
+    canEdit() ? `<button class="btn" onclick="newAccountForm()">${ic('plus')} Nova conta</button>` : '') + `
+  <div class="toolbar">
+    <div class="searchbox">${ic('search','sm')}<input class="input" type="search" id="cq" placeholder="Buscar e-mail, cliente, hostname ou serial" value="${esc(CV.q)}" oninput="CV.q=this.value;vContasBody()"></div>
+    <div class="chips" id="cchips">${chips.map(([k,l]) => `<button class="chip ${CV.f===k?'on':''}" onclick="CV.f='${k}';vContas()">${l}<span class="n">${S.accounts.filter(a => contasFilter(a,k)).length}</span></button>`).join('')}</div>
+    <div class="grow"></div>
+    <div class="chips"><button class="chip ${CV.mode==='grade'?'on':''}" title="Grade" onclick="setMode('grade')">${ic('grid','sm')}</button><button class="chip ${CV.mode==='lista'?'on':''}" title="Lista" onclick="setMode('lista')">${ic('list','sm')}</button></div>
   </div><div id="cbody"></div>`;
   vContasBody();
 }
+function setMode(m){ CV.mode = m; try { localStorage.setItem('contasModo', m); } catch(e){} vContas(); }
 function vContasBody(){
-  const q = norm(F.q);
-  const L = DB.accounts.filter(a => {
-    const c = cnt(a);
-    if (F.contas === 'vaga' && !c.f) return false;
-    if (F.contas === 'cheia' && (c.f || c.r)) return false;
-    if (F.contas === 'reservada' && !c.r) return false;
-    if (q && !norm(a.email + ' ' + a.slots.map(s => [s.cli,s.host,s.serial].join(' ')).join(' ')).includes(q)) return false;
-    return true;
+  const q = norm(CV.q);
+  const L = S.accounts.filter(a => contasFilter(a, CV.f) && (!q || norm(a.email + ' ' + a.slots.map(s => [s.cli,s.host,s.serial].join(' ')).join(' ')).includes(q)));
+  const clis = a => [...new Set(a.slots.filter(s => s.st==='ativo').map(s => s.cli))];
+  if (!L.length){ $('#cbody').innerHTML = `<div class="tbl-wrap">${emptyBox('search','Nenhuma conta encontrada','Tente outro termo ou filtro.')}</div>`; return; }
+  if (CV.mode === 'grade'){
+    $('#cbody').innerHTML = `<div class="acc-grid">${L.map(a => { const c = clis(a); return `
+      <button class="acc" onclick="openAccount(${a.id})">
+        <div class="acc-top"><div style="min-width:0"><div class="acc-n mono trunc">${esc(user(a.email))}</div><div class="acc-d">${esc(domain(a.email))}</div></div><span class="small strong" style="font-variant-numeric:tabular-nums">${a.c.u}/${a.c.t}</span></div>
+        ${cellsHtml(a, true)}
+        <div class="acc-cli trunc">${c.length ? esc(c.slice(0,3).join(' · ')) + (c.length > 3 ? ` <span class="muted">+${c.length-3}</span>` : '') : '<span class="muted">Sem máquinas ativas</span>'}</div>
+        <div>${statusBadges(a.c)}</div>
+      </button>`; }).join('')}</div><div class="muted small" style="margin-top:12px">${plural(L.length,'conta')} de ${S.accounts.length}</div>`;
+  } else {
+    $('#cbody').innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Conta</th><th>Uso</th><th class="hide-sm">Clientes</th><th>Situação</th><th class="hide-sm">Última ativação</th></tr></thead><tbody>
+    ${L.map(a => { const c = clis(a), last = a.slots.filter(s => s.data && s.st==='ativo').map(s => s.data).sort().pop(); return `
+      <tr class="click" onclick="openAccount(${a.id})"><td class="mono">${esc(a.email)}</td><td class="nowrap">${cellsHtml(a)} <span class="small muted">${a.c.u}/${a.c.t}</span></td>
+      <td class="small hide-sm">${esc(c.slice(0,2).join(', '))}${c.length>2?` <span class="muted">+${c.length-2}</span>`:''}</td><td class="nowrap">${statusBadges(a.c)}</td><td class="hide-sm">${fmt(last)}</td></tr>`; }).join('')}
+    </tbody></table></div><div class="pager"><span>${plural(L.length,'conta')} de ${S.accounts.length}</span></div></div>`;
+  }
+}
+function newAccountForm(){
+  if (!canEdit()) return;
+  const next = Math.max(0, ...S.accounts.map(a => num(a.email))) + 1;
+  const dom = S.accounts[0] ? domain(S.accounts[0].email) : '@lowcost.com.br';
+  const m = modal({title:'Nova conta de licença', sub:'A conta é criada com 5 vagas livres. A senha fica criptografada no cofre do Supabase.', icon:'mail', body:`
+    <div class="form">
+      <div class="field"><label>E-mail da conta</label><input class="input mono" id="ne" value="lowcost${next}${esc(dom)}"></div>
+      <div class="field"><label>Senha da conta Microsoft</label><div class="pw"><input class="input mono" type="password" id="np" autocomplete="new-password">
+        <button type="button" class="ibtn" onclick="const i=$('#np');i.type=i.type==='password'?'text':'password'">${ic('eye')}</button></div></div>
+      <div class="alert err hidden" id="nerr"></div>
+    </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="nok">Criar conta</button>`});
+  $('#nok', m).onclick = e => busy(e.currentTarget, async () => {
+    const em = $('#ne').value.trim().toLowerCase(), pw = $('#np').value;
+    const er = t => { const x = $('#nerr'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return er('E-mail inválido.');
+    if (S.accounts.some(a => a.email.toLowerCase() === em)) return er('Essa conta já existe.');
+    if (!pw) return er('Informe a senha da conta.');
+    try {
+      const id = await rpc('criar_conta', {p_email:em, p_senha:pw});
+      await loadData(); closeModal(); toast('Conta criada'); renderView(); openAccount(id);
+    } catch(err){ er(errMsg(err)); }
   });
-  $('#cbody').innerHTML = `<div class="tw"><table><thead><tr><th>Conta</th><th>Uso</th><th>Clientes</th><th>Situação</th><th>Última ativação</th></tr></thead><tbody>
-  ${L.map(a => {
-    const c = cnt(a), cls = [...new Set(a.slots.filter(s => s.st==='ativo').map(s => s.cli))];
-    const last = a.slots.filter(s => s.data && s.st==='ativo').map(s => s.data).sort().pop();
-    return `<tr class="click" onclick="openAccount('${a.email}')"><td class="mono">${esc(a.email)}</td><td>${dots(a)}</td>
-      <td class="small">${esc(cls.slice(0,2).join(', '))}${cls.length>2?` <span class="muted">+${cls.length-2}</span>`:''}</td>
-      <td>${c.r ? `<span class="badge b-res">${ic('lock')} ${c.r} reservada${c.r>1?'s':''}</span> ` : ''}${c.f ? `<span class="badge b-ok">${c.f} livre${c.f>1?'s':''}</span>` : (!c.r?'<span class="badge b-n">cheia</span>':'')}</td>
-      <td>${fmt(last)}</td></tr>`;
-  }).join('') || '<tr><td colspan="5" class="empty">Nenhuma conta encontrada.</td></tr>'}
-  </tbody></table></div><div class="count">${L.length} de ${DB.accounts.length} contas</div>`;
+  setTimeout(() => $('#np').focus(), 50);
 }
 
-/* ---------- detalhe da conta ---------- */
-let curAcc = null, pw = false, pwText = null, pwTimer = null;
-function openAccount(email){ curAcc = email; pw = false; pwText = null; drawAccount(); }
+/* =====================================================================
+   DETALHE DA CONTA (drawer)
+   ===================================================================== */
+let PW = {on:false, txt:null, timer:null};
+function openAccount(id){
+  S.drawer = id; PW = {on:false, txt:null, timer:null};
+  closePalette();
+  drawAccount();
+}
 function drawAccount(){
-  const a = DB.accounts.find(x => x.email === curAcc); if (!a) return;
-  const c = cnt(a);
-  $('#layer').innerHTML = `<div class="ov" onclick="if(event.target===this)closeLayer()"><div class="drawer">
-    <div class="row between"><div><div class="muted small">Conta de licença</div><div class="mono" style="font-size:15px;font-weight:700">${esc(a.email)}</div></div>
-      <button class="ibtn" onclick="closeLayer()">${ic('x')}</button></div>
-    <div class="cred"><span class="k">E-mail</span><span class="val mono">${esc(a.email)}</span><button class="ibtn" title="Copiar" onclick="copy('${a.email}')">${ic('copy')}</button></div>
-    <div class="cred"><span class="k">Senha</span><span class="val mono">${pw ? esc(pwText) : '••••••••••••'}</span>
-      <button class="ibtn" title="${pw?'Ocultar':'Mostrar'}" onclick="togglePw()">${ic(pw?'eyeoff':'eye')}</button>
-      <button class="ibtn" title="Copiar" onclick="copyPw()">${ic('copy')}</button></div>
-    <div class="row wrap" style="margin-top:12px"><span class="badge b-acc">${c.u} em uso</span><span class="badge b-ok">${c.f} livres</span>${c.r?`<span class="badge b-res">${c.r} reservadas</span>`:''}</div>
-    ${a.slots.map(s => slotCard(a, s)).join('')}
-  </div></div>`;
+  const a = S.byId[S.drawer]; if (!a){ closeDrawer(); return; }
+  let el = $('#drawer');
+  if (!el){
+    $('#layer').insertAdjacentHTML('beforeend', `<div class="scrim" id="dscrim" onclick="closeDrawer()"></div><aside class="drawer" id="drawer" role="dialog" aria-modal="true"></aside>`);
+    el = $('#drawer');
+  }
+  const c = a.c, edit = canEdit();
+  el.innerHTML = `
+    <div class="drawer-h">
+      <span class="brand-mark" style="width:36px;height:36px">${ic('mail')}</span>
+      <div style="min-width:0;flex:1"><div class="mono strong trunc" style="font-size:14.5px">${esc(a.email)}</div><div class="small muted">${c.u} em uso · ${plural(c.f,'livre')}${c.r ? ` · ${c.r} reservada${c.r>1?'s':''}` : ''}</div></div>
+      <button class="ibtn" onclick="closeDrawer()" title="Fechar (Esc)">${ic('x')}</button>
+    </div>
+    <div class="drawer-b">
+      <div>
+        <div class="sec-t">Acesso à conta Microsoft${edit ? `<button class="btn sm ghost" onclick="changePwForm(${a.id})">${ic('edit','sm')} Alterar senha</button>` : ''}</div>
+        <div class="card" style="overflow:hidden">
+          <div class="cred"><span class="k">E-mail</span><span class="v mono trunc">${esc(a.email)}</span><button class="ibtn" title="Copiar e-mail" onclick="copy('${esc(a.email)}','E-mail copiado')">${ic('copy','sm')}</button></div>
+          <div class="cred"><span class="k">Senha</span><span class="v mono trunc" id="pwv">${PW.on ? esc(PW.txt) : '<span class="muted">••••••••••••</span>'}</span>
+            <button class="ibtn" title="${PW.on ? 'Ocultar' : 'Mostrar'}" onclick="togglePw(this)">${ic(PW.on ? 'eyeoff' : 'eye','sm')}</button>
+            <button class="ibtn" title="Copiar senha" onclick="copyPw(this)">${ic('copy','sm')}</button></div>
+          ${PW.on ? '<div class="pwbar"></div>' : ''}
+        </div>
+        <div class="small muted" style="margin-top:6px;display:flex;gap:6px;align-items:center">${ic('info','sm')}Cada visualização da senha fica registrada no histórico.</div>
+      </div>
+      <div>
+        <div class="sec-t">Vagas ${cellsHtml(a)}</div>
+        <div class="grid" style="gap:10px">${a.slots.map(s => slotCard(s, edit)).join('')}</div>
+      </div>
+    </div>`;
+}
+function closeDrawer(){
+  clearTimeout(PW.timer); PW = {on:false, txt:null, timer:null};
+  S.drawer = null;
+  ['#drawer','#dscrim'].forEach(s => { const e = $(s); if (e) e.remove(); });
 }
 async function fetchPw(){
-  const a = DB.accounts.find(x => x.email === curAcc);
-  const {data, error} = await sb.rpc('obter_senha', {p_conta: a.id});
-  if (error){ toast(error.message); return null; }
-  return data;
+  try { return await rpc('obter_senha', {p_conta:S.drawer}); }
+  catch(e){ toast(errMsg(e), 'err'); return null; }
 }
-async function togglePw(){
-  clearTimeout(pwTimer);
-  if (pw){ pw = false; pwText = null; drawAccount(); return; }
-  const t = await fetchPw(); if (t === null) return;
-  pw = true; pwText = t; drawAccount();
-  pwTimer = setTimeout(() => { if (pw){ pw = false; pwText = null; if ($('#layer .drawer')) drawAccount(); } }, 30000);
+async function togglePw(btn){
+  clearTimeout(PW.timer);
+  if (PW.on){ PW = {on:false, txt:null, timer:null}; drawAccount(); return; }
+  const t = await busy(btn, fetchPw); if (t === null) return;
+  PW = {on:true, txt:t, timer:setTimeout(() => { if (PW.on && S.drawer){ PW = {on:false, txt:null, timer:null}; drawAccount(); } }, 30000)};
+  drawAccount();
 }
-async function copyPw(){ const t = await fetchPw(); if (t !== null) copy(t); }
-function slotCard(a, s){
-  if (s.st === 'reservado') return `<div class="slot res"><div class="row between"><b>Vaga ${s.n}</b><span class="badge b-res">${ic('lock')} Reservada</span></div><div class="small muted" style="margin-top:6px">Reservada por outro departamento. Não pode ser alterada.</div></div>`;
-  if (s.st === 'disponivel') return `<div class="slot free"><div class="row between"><b>Vaga ${s.n}</b><span class="badge b-ok">Livre</span></div>
-    <div class="row" style="margin-top:10px">${canEdit() ? `<button class="btn sm primary" onclick="slotForm('${a.email}',${s.n})">${ic('plus')} Ativar máquina</button>` : '<span class="muted small">Somente consulta</span>'}</div></div>`;
-  return `<div class="slot"><div class="row between"><b>Vaga ${s.n}</b><span class="badge b-acc">Em uso</span></div>
-    <div class="kv"><span>Cliente</span><span><b>${esc(s.cli)}</b></span><span>Hostname</span><span class="mono">${esc(s.host)||'<span class="muted">—</span>'}</span>
-    <span>Serial</span><span class="mono">${esc(s.serial)||'<span class="muted">—</span>'}</span><span>Ativada em</span><span>${dateTag(s)}</span>
-    ${s.prop ? `<span>Proposta</span><span>${esc(s.prop)}</span>` : ''}${s.obs ? `<span>Observação</span><span>${esc(s.obs)}</span>` : ''}
-    ${s.orig && s.orig !== s.cli ? `<span>Nome original</span><span class="muted small">${esc(s.orig)}</span>` : ''}</div>
-    ${canEdit() ? `<div class="row" style="margin-top:10px"><button class="btn sm" onclick="slotForm('${a.email}',${s.n})">${ic('edit')} Editar</button><button class="btn sm danger" onclick="confirmRelease('${a.email}',${s.n})">Liberar vaga</button></div>` : ''}</div>`;
+async function copyPw(btn){ const t = PW.on ? PW.txt : await busy(btn, fetchPw); if (t !== null) copy(t, 'Senha copiada'); }
+function changePwForm(id){
+  const a = S.byId[id];
+  const m = modal({title:'Alterar senha da conta', sub:a.email, icon:'lock', body:`
+    <div class="form">
+      <div class="alert info">${ic('info')}<span>Altere aqui <b>depois</b> de trocar a senha no portal da Microsoft. Isto só atualiza o que fica guardado no sistema.</span></div>
+      <div class="field"><label>Nova senha</label><div class="pw"><input class="input mono" type="password" id="cp1" autocomplete="new-password"><button type="button" class="ibtn" onclick="const i=$('#cp1');i.type=i.type==='password'?'text':'password'">${ic('eye')}</button></div></div>
+      <div class="alert err hidden" id="cperr"></div>
+    </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="cpok">Salvar senha</button>`});
+  $('#cpok', m).onclick = e => busy(e.currentTarget, async () => {
+    const p = $('#cp1').value;
+    const er = t => { const x = $('#cperr'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
+    if (!p) return er('Informe a nova senha.');
+    try { await rpc('definir_senha_conta', {p_conta:id, p_senha:p}); closeModal(); PW = {on:false, txt:null, timer:null}; drawAccount(); toast('Senha atualizada'); }
+    catch(err){ er(errMsg(err)); }
+  });
+  setTimeout(() => $('#cp1').focus(), 50);
 }
-function closeLayer(){ $('#layer').innerHTML = ''; }
-function modal(html){ $('#layer').insertAdjacentHTML('beforeend', `<div class="ov center" id="mdl" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`); }
-function closeModal(){ const m = $('#mdl'); if (m) m.remove(); }
+function slotCard(s, edit){
+  if (s.st === 'reservado') return `<div class="slot res"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow strong">Reservada</div><span class="badge b-res">${ic('lock')}Outro departamento</span></div>
+    <div class="small muted" style="margin-top:8px">Esta vaga pertence a outro departamento e não pode ser usada nem alterada.</div></div>`;
+  if (s.st === 'disponivel') return `<div class="slot free"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow"><div class="strong">Vaga livre</div><div class="small muted">Pronta para uma nova ativação</div></div>
+    ${edit ? `<button class="btn sm primary" onclick="slotForm(${s.id})">${ic('plus','sm')} Ativar</button>` : ''}</div></div>`;
+  return `<div class="slot"><div class="slot-h"><span class="slot-n">${s.n}</span><div class="grow" style="min-width:0"><div class="strong trunc">${esc(s.cli)}</div><div class="small muted mono trunc">${esc(s.host) || 'sem hostname'}</div></div><span class="badge b-acc dotb">Em uso</span></div>
+    <div class="kv"><span>Serial</span><span class="mono">${esc(s.serial) || '<span class="muted">—</span>'}</span><span>Ativada em</span><span>${dateTag(s)}${s.data ? ` <span class="muted small">· ${ageTxt(ageDays(s.data))}</span>` : ''}</span>
+      ${s.prop ? `<span>Proposta</span><span>${esc(s.prop)}</span>` : ''}${s.obs ? `<span>Observação</span><span>${esc(s.obs)}</span>` : ''}</div>
+    ${edit ? `<div class="slot-a"><button class="btn sm" onclick="slotForm(${s.id})">${ic('edit','sm')} Editar</button><button class="btn sm" style="color:var(--bad)" onclick="confirmRelease(${s.id})">${ic('unlock','sm')} Liberar vaga</button></div>` : ''}</div>`;
+}
 
-function clientDatalist(){ return `<datalist id="cls">${clientList().map(([n]) => `<option value="${esc(n)}">`).join('')}</datalist>`; }
-function slotForm(email, n){
-  if (!canEdit()) return;
-  const a = DB.accounts.find(x => x.email === email), s = a.slots.find(x => x.n === n), edit = s.st === 'ativo';
-  modal(`<h3>${edit ? 'Editar máquina' : 'Ativar máquina'}</h3><div class="muted small mono">${esc(email)} · vaga ${n}</div>
-  <div class="field"><label>Cliente *</label><input type="text" id="fc" list="cls" value="${esc(s.cli)}" placeholder="Escolha ou digite um cliente">${clientDatalist()}</div>
-  <div class="two"><div class="field"><label>Hostname</label><input type="text" id="fh" value="${esc(s.host)}"></div>
-  <div class="field"><label>Serial</label><input type="text" id="fs" value="${esc(s.serial)}"></div></div>
-  <div class="two"><div class="field"><label>Data da ativação</label><input type="date" id="fd" value="${s.data || todayIso()}"></div>
-  <div class="field"><label>Proposta</label><input type="text" id="fp" value="${esc(s.prop)}"></div></div>
-  <div class="field"><label>Observação</label><input type="text" id="fo" value="${esc(s.obs)}"></div>
-  <div class="err" id="fe"></div>
-  <div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" onclick="saveSlot('${email}',${n})">Salvar</button></div>`);
+/* =====================================================================
+   MODAIS
+   ===================================================================== */
+function modal({title, sub='', icon='', tone='acc', body='', foot='', wide=false}){
+  closeModal();
+  const tones = {acc:['var(--accent)','var(--accent-soft)'], bad:['var(--bad)','var(--bad-soft)'], warn:['var(--warn)','var(--warn-soft)']};
+  const [fg, bg] = tones[tone] || tones.acc;
+  $('#layer').insertAdjacentHTML('beforeend', `<div class="scrim" id="mscrim" style="z-index:69"></div><div class="modal-wrap" id="mdl" onclick="if(event.target===this)closeModal()">
+    <div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">
+      <div class="modal-h">${icon ? `<span class="m-ico" style="color:${fg};background:${bg}">${ic(icon)}</span>` : ''}<div style="min-width:0;flex:1"><h3>${title}</h3>${sub ? `<p class="trunc">${esc(sub)}</p>` : ''}</div><button class="ibtn" onclick="closeModal()">${ic('x')}</button></div>
+      <div class="modal-b">${body}</div>${foot ? `<div class="modal-f">${foot}</div>` : ''}</div></div>`);
+  return $('#mdl');
 }
-function serialTaken(serial, exceptSlot){
+function closeModal(){ ['#mdl','#mscrim'].forEach(s => { const e = $(s); if (e) e.remove(); }); }
+function confirmBox({title, text, ok='Confirmar', tone='acc', icon='info'}){
+  return new Promise(res => {
+    const m = modal({title, icon, tone, body:`<div style="color:var(--text-2)">${text}</div>`,
+      foot:`<button class="btn" id="cbno">Cancelar</button><button class="btn ${tone==='bad'?'danger':'primary'}" id="cbok">${ok}</button>`});
+    $('#cbno', m).onclick = () => { closeModal(); res(null); };
+    $('#cbok', m).onclick = e => res(e.currentTarget);
+    $('#cbok', m).focus();
+  });
+}
+function closeAll(){ closeModal(); closeDrawer(); closePalette(); closeSide(); }
+
+/* ---------- ativar / editar / liberar vaga ---------- */
+function clientDatalist(){ return `<datalist id="cls">${S.clients.map(([n]) => `<option value="${esc(n)}">`).join('')}</datalist>`; }
+function serialOwner(serial, exceptId){
   if (!serial) return null;
-  return activeSlots().find(x => x.s !== exceptSlot && x.s.serial.toUpperCase() === serial.toUpperCase());
+  const u = serial.toUpperCase();
+  return S.active.find(s => s.id !== exceptId && s.serial.toUpperCase() === u) || null;
 }
-async function saveSlot(email, n){
-  const a = DB.accounts.find(x => x.email === email), s = a.slots.find(x => x.n === n);
+function checkSerial(inp, exceptId, helpSel){
+  const o = serialOwner(inp.value.trim(), exceptId), h = $(helpSel);
+  inp.classList.toggle('bad', !!o);
+  if (h){ h.className = 'help' + (o ? ' bad' : ''); h.textContent = o ? `Já em uso: ${o.cli} · ${o.a.email} vaga ${o.n}` : ''; }
+  return o;
+}
+function slotForm(id){
+  if (!canEdit()) return;
+  const s = S.slotById[id], edit = s.st === 'ativo';
+  const m = modal({title: edit ? 'Editar máquina' : 'Ativar máquina', sub:`${s.a.email} · vaga ${s.n}`, icon: edit ? 'edit' : 'pc', body:`
+    <div class="form">
+      <div class="field"><label>Cliente *</label><input class="input" id="fc" list="cls" value="${esc(s.cli)}" placeholder="Escolha ou digite o cliente" autocomplete="off">${clientDatalist()}</div>
+      <div class="two"><div class="field"><label>Hostname</label><input class="input mono" id="fh" value="${esc(s.host)}" placeholder="ex.: LC-NOTE-042"></div>
+        <div class="field"><label>Serial</label><input class="input mono" id="fs" value="${esc(s.serial)}" oninput="checkSerial(this,${s.id},'#fsh')"><span class="help" id="fsh"></span></div></div>
+      <div class="two"><div class="field"><label>Data da ativação</label><input class="input" type="date" id="fd" value="${s.data || todayIso()}" max="${todayIso()}"></div>
+        <div class="field"><label>Proposta</label><input class="input" id="fp" value="${esc(s.prop)}"></div></div>
+      <div class="field"><label>Observação</label><input class="input" id="fo" value="${esc(s.obs)}"></div>
+      <div class="alert err hidden" id="fe"></div>
+    </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="fok">${edit ? 'Salvar alterações' : 'Ativar máquina'}</button>`});
+  $('#fok', m).onclick = e => busy(e.currentTarget, () => saveSlot(id));
+  setTimeout(() => $('#fc').focus(), 50);
+}
+async function saveSlot(id){
+  const s = S.slotById[id], was = s.st === 'ativo';
+  const er = t => { const x = $('#fe'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
   const cli = $('#fc').value.trim().toUpperCase(), serial = $('#fs').value.trim().toUpperCase();
-  if (!cli){ $('#fe').textContent = 'Informe o cliente.'; return; }
-  const dup = serialTaken(serial, s);
-  if (dup){ $('#fe').textContent = `Serial já está em uso na conta ${dup.a.email} (${dup.s.cli}).`; return; }
-  const was = s.st === 'ativo';
-  $('#fe').textContent = 'Salvando…';
-  const {error} = await sb.rpc(was ? 'editar_vaga' : 'ativar_vaga', {p_vaga:s.id, p_cliente:cli, p_hostname:$('#fh').value.trim(), p_serial:serial, p_data:$('#fd').value || null, p_proposta:$('#fp').value.trim(), p_obs:$('#fo').value.trim()});
-  if (error){ $('#fe').textContent = error.message; return; }
-  await loadData(); closeModal(); toast(was ? 'Alterações salvas' : 'Máquina ativada'); refresh();
+  if (!cli){ $('#fc').classList.add('bad'); return er('Informe o cliente.'); }
+  const dup = serialOwner(serial, s.id);
+  if (dup) return er(`O serial ${serial} já está em uso na conta ${dup.a.email} (${dup.cli}).`);
+  try {
+    await rpc(was ? 'editar_vaga' : 'ativar_vaga', {p_vaga:s.id, p_cliente:cli, p_hostname:$('#fh').value.trim(), p_serial:serial, p_data:$('#fd').value || null, p_proposta:$('#fp').value.trim(), p_obs:$('#fo').value.trim()});
+    await loadData(); closeModal(); toast(was ? 'Alterações salvas' : 'Máquina ativada'); renderView(); if (S.drawer) drawAccount();
+  } catch(e){ er(errMsg(e)); }
 }
-function confirmRelease(email, n){
-  const a = DB.accounts.find(x => x.email === email), s = a.slots.find(x => x.n === n);
-  modal(`<h3>Liberar vaga ${n}?</h3><p>A vaga de <b>${esc(s.cli)}</b> (${esc(s.host)||'sem hostname'}) na conta <span class="mono">${esc(email)}</span> ficará <b>livre</b> para reutilização.</p>
-  <div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn danger" onclick="doRelease('${email}',${n})">Liberar</button></div>`);
+async function confirmRelease(id){
+  const s = S.slotById[id];
+  const btn = await confirmBox({title:`Liberar a vaga ${s.n}?`, tone:'bad', icon:'unlock', ok:'Liberar vaga',
+    text:`A máquina <b>${esc(s.cli)}</b> (<span class="mono">${esc(s.host || 'sem hostname')}</span>) sai da conta <span class="mono">${esc(s.a.email)}</span> e a vaga fica livre.<div class="alert warn" style="margin-top:12px">${ic('alert')}<span>Lembre de desativar o Office nessa máquina.</span></div>`});
+  if (!btn) return;
+  await busy(btn, async () => {
+    try { await rpc('liberar_vaga', {p_vaga:id}); await loadData(); closeModal(); toast('Vaga liberada'); renderView(); if (S.drawer) drawAccount(); }
+    catch(e){ closeModal(); toast(errMsg(e), 'err'); }
+  });
 }
-async function doRelease(email, n){
-  const a = DB.accounts.find(x => x.email === email), s = a.slots.find(x => x.n === n);
-  const {error} = await sb.rpc('liberar_vaga', {p_vaga: s.id});
-  if (error){ toast(error.message); return; }
-  await loadData(); closeModal(); toast('Vaga liberada'); refresh();
-}
-function refresh(){ render(); if ($('#layer .drawer')) drawAccount(); }
 
-/* ---------- máquinas ---------- */
+/* =====================================================================
+   MÁQUINAS
+   ===================================================================== */
+const MV = {q:'', cli:'', inc:false, sort:'data', dir:-1, page:0};
+const PAGE = 50;
 function vMaquinas(){
-  const cl = clientList();
-  $('#main').innerHTML = head('Máquinas', 'Todas as máquinas com Office ativado', `<button class="btn" onclick="exportCsv()">${ic('dl')} Exportar CSV</button>`) + `
-  <div class="tools">
-    <input type="search" class="search" placeholder="Buscar cliente, hostname, serial ou conta…" value="${esc(F.maq)}" oninput="F.maq=this.value;vMaqBody()">
-    <select style="width:auto;max-width:260px" onchange="F.cli=this.value;vMaqBody()"><option value="">Todos os clientes</option>${cl.map(([n,c]) => `<option value="${esc(n)}" ${F.cli===n?'selected':''}>${esc(n)} (${c})</option>`).join('')}</select>
+  $('#view').innerHTML = pageHead('Máquinas', 'Todas as máquinas com Office ativado.', `<button class="btn" onclick="exportCsv()">${ic('dl')} Exportar CSV</button>`) + `
+  <div class="toolbar">
+    <div class="searchbox">${ic('search','sm')}<input class="input" type="search" placeholder="Buscar cliente, hostname, serial, conta ou proposta" value="${esc(MV.q)}" oninput="MV.q=this.value;MV.page=0;vMaqBody()"></div>
+    <select class="input" onchange="MV.cli=this.value;MV.page=0;vMaqBody()"><option value="">Todos os clientes</option>${S.clients.map(([n,c]) => `<option value="${esc(n)}" ${MV.cli===n?'selected':''}>${esc(n)} (${c})</option>`).join('')}</select>
+    <label class="small" style="display:flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" ${MV.inc?'checked':''} onchange="MV.inc=this.checked;MV.page=0;vMaqBody()"> Só datas a confirmar</label>
   </div><div id="mbody"></div>`;
   vMaqBody();
 }
 function maqList(){
-  const q = norm(F.maq);
-  return activeSlots().filter(x => (!F.cli || x.s.cli === F.cli) && (!q || norm([x.s.cli,x.s.host,x.s.serial,x.a.email,x.s.prop].join(' ')).includes(q)))
-    .sort((a,b) => (b.s.data||'').localeCompare(a.s.data||''));
+  const q = norm(MV.q);
+  const key = {cli:s => s.cli, host:s => s.host, serial:s => s.serial, conta:s => num(s.a.email)*10 + s.n, data:s => s.data || ''}[MV.sort];
+  return S.active.filter(s => (!MV.cli || s.cli === MV.cli) && (!MV.inc || s.inc) && (!q || norm([s.cli,s.host,s.serial,s.a.email,s.prop,s.obs].join(' ')).includes(q)))
+    .sort((a,b) => { const x = key(a), y = key(b); return (x < y ? -1 : x > y ? 1 : 0) * MV.dir; });
 }
+function mSort(k){ if (MV.sort === k) MV.dir *= -1; else { MV.sort = k; MV.dir = k === 'data' ? -1 : 1; } vMaqBody(); }
+function mPage(p){ MV.page = p; vMaqBody(); $('#mbody').scrollIntoView({block:'start', behavior:'smooth'}); }
 function vMaqBody(){
-  const L = maqList();
-  $('#mbody').innerHTML = `<div class="tw"><table><thead><tr><th>Cliente</th><th>Hostname</th><th>Serial</th><th>Conta</th><th>Ativada em</th><th>Proposta</th></tr></thead><tbody>
-  ${L.slice(0,400).map(x => `<tr class="click" onclick="openAccount('${x.a.email}')"><td><b>${esc(x.s.cli)}</b></td><td class="mono">${esc(x.s.host)||'<span class="muted">—</span>'}</td><td class="mono">${esc(x.s.serial)||'<span class="muted">—</span>'}</td><td class="mono small">${esc(x.a.email)} <span class="muted">#${x.s.n}</span></td><td>${dateTag(x.s)}</td><td>${esc(x.s.prop)}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">Nada encontrado.</td></tr>'}
-  </tbody></table></div><div class="count">${L.length} máquina${L.length!==1?'s':''}${L.length>400?' · exibindo as 400 mais recentes (refine a busca)':''}</div>`;
+  const L = maqList(), pg = L.slice(MV.page*PAGE, (MV.page+1)*PAGE);
+  const th = (k, l, cls='') => `<th class="sort ${cls}" onclick="mSort('${k}')">${l}${MV.sort===k ? `<span class="arr">${MV.dir>0?'↑':'↓'}</span>` : ''}</th>`;
+  $('#mbody').innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr>${th('cli','Cliente')}${th('host','Hostname')}${th('serial','Serial','hide-sm')}${th('conta','Conta')}${th('data','Ativada em')}</tr></thead><tbody>
+  ${pg.map(s => `<tr class="click" onclick="openAccount(${s.a.id})"><td><div class="strong">${esc(s.cli)}</div>${s.prop ? `<div class="sub">Proposta ${esc(s.prop)}</div>` : ''}</td>
+    <td class="mono">${esc(s.host) || '<span class="muted">—</span>'}</td><td class="mono hide-sm">${esc(s.serial) || '<span class="muted">—</span>'}</td>
+    <td class="mono small nowrap">${slotRef(s)}</td><td class="nowrap">${dateTag(s)}</td></tr>`).join('') || `<tr><td colspan="5">${emptyBox('search','Nada encontrado','Ajuste a busca ou os filtros.')}</td></tr>`}
+  </tbody></table></div>${pager(L.length, MV.page, PAGE, 'mPage')}</div>`;
 }
 function exportCsv(){
-  const rows = [['Cliente','Hostname','Serial','Conta','Vaga','Data ativação','Proposta','Observação']].concat(
-    maqList().map(x => [x.s.cli,x.s.host,x.s.serial,x.a.email,x.s.n,x.s.data||'',x.s.prop,x.s.obs]));
+  const rows = [['Cliente','Hostname','Serial','Conta','Vaga','Data ativação','Data a confirmar','Proposta','Observação']].concat(
+    maqList().map(s => [s.cli, s.host, s.serial, s.a.email, s.n, s.data ? fmt(s.data) : '', s.inc ? 'sim' : '', s.prop, s.obs]));
   const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(';')).join('\r\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
-  a.download = 'maquinas-office.csv'; document.body.appendChild(a); a.click(); a.remove(); toast('CSV gerado (sem senhas)');
+  a.download = `maquinas-office-${todayIso()}.csv`; document.body.appendChild(a); a.click(); a.remove();
+  toast('CSV gerado (sem senhas)');
 }
 
-/* ---------- nova ativação ---------- */
-let AL = {cli:'', qtd:1, plan:null};
-function vAlocar(){
-  $('#main').innerHTML = head('Nova ativação', 'Descubra onde ativar o Office para um cliente. Se não houver vaga, a ferramenta sugere reciclar as licenças mais antigas.') + `
-  <div class="card" style="max-width:640px">
-    <div class="two"><div class="field"><label>Cliente *</label><input type="text" id="ac" list="cls" value="${esc(AL.cli)}" placeholder="Escolha ou digite um cliente">${clientDatalist()}</div>
-    <div class="field"><label>Quantidade de máquinas</label><input type="number" id="aq" min="1" max="20" value="${AL.qtd}"></div></div>
-    <div class="err" id="ae"></div>
-    <button class="btn primary" onclick="makePlan()">Sugerir onde ativar</button>
-  </div><div id="plan"></div>`;
-  if (AL.plan) drawPlan();
+/* =====================================================================
+   NOVA ATIVAÇÃO
+   ===================================================================== */
+const NA = {cli:'', qtd:1, data:'', plan:null};
+function vAtivar(){
+  if (!NA.data) NA.data = todayIso();
+  $('#view').innerHTML = pageHead('Nova ativação', 'Informe o cliente e quantas máquinas. A ferramenta escolhe as vagas e, se faltar espaço, sugere reciclar as ativações mais antigas.') + `
+  <div class="steps"><span class="${NA.plan ? '' : 'on'}"><b>1</b>Pedido</span>${ic('arrow','sm')}<span class="${NA.plan ? 'on' : ''}"><b>2</b>Conferir e confirmar</span></div>
+  <div class="card" style="max-width:860px"><div class="card-b" style="padding-top:18px">
+    <div class="form"><div style="display:grid;grid-template-columns:minmax(0,2fr) 120px 170px;gap:14px" class="na-grid">
+      <div class="field"><label>Cliente *</label><input class="input" id="ac" list="cls" value="${esc(NA.cli)}" placeholder="Escolha ou digite o cliente" autocomplete="off" onkeydown="if(event.key==='Enter')makePlan()">${clientDatalist()}</div>
+      <div class="field"><label>Máquinas</label><input class="input" type="number" id="aq" min="1" max="20" value="${NA.qtd}" onkeydown="if(event.key==='Enter')makePlan()"></div>
+      <div class="field"><label>Data da ativação</label><input class="input" type="date" id="ad" value="${NA.data}" max="${todayIso()}"></div>
+    </div>
+    <div class="alert err hidden" id="ae"></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn primary" onclick="makePlan()">${ic('zap','sm')} Sugerir vagas</button>
+      <span class="small muted">${plural(S.tot.f,'vaga livre','vagas livres')} no momento · reservadas nunca são usadas</span></div></div>
+  </div></div><div id="plan"></div>
+  <style>@media (max-width:640px){.na-grid{grid-template-columns:1fr 1fr!important}.na-grid>.field:first-child{grid-column:1/-1}}</style>`;
+  if (NA.plan) drawPlan();
 }
 function makePlan(){
   const cli = $('#ac').value.trim().toUpperCase(), qtd = Math.max(1, Math.min(20, parseInt($('#aq').value) || 1));
-  if (!cli){ $('#ae').textContent = 'Informe o cliente.'; return; }
-  AL.cli = cli; AL.qtd = qtd;
-  const withFree = DB.accounts.map(a => ({a, f:a.slots.filter(s => s.st==='disponivel'), has:a.slots.some(s => s.st==='ativo' && s.cli===cli)})).filter(x => x.f.length);
+  NA.data = $('#ad').value || todayIso();
+  if (!cli){ const e = $('#ae'); e.classList.remove('hidden'); e.innerHTML = ic('alert') + '<span>Informe o cliente.</span>'; $('#ac').classList.add('bad'); return; }
+  NA.cli = cli; NA.qtd = qtd;
+  const withFree = S.accounts.map(a => ({a, f:a.slots.filter(s => s.st === 'disponivel'), has:a.slots.some(s => s.st === 'ativo' && s.cli === cli)})).filter(x => x.f.length);
   let picks = [];
-  const fit = withFree.filter(x => x.f.length >= qtd).sort((x,y) => (y.has-x.has) || (x.f.length-y.f.length) || num(x.a.email)-num(y.a.email))[0];
-  if (fit) picks = fit.f.slice(0, qtd).map(s => ({a:fit.a, s}));
+  const fit = withFree.filter(x => x.f.length >= qtd).sort((x,y) => (y.has - x.has) || (x.f.length - y.f.length) || num(x.a.email) - num(y.a.email))[0];
+  if (fit) picks = fit.f.slice(0, qtd);
   else {
-    withFree.sort((x,y) => (y.has-x.has) || (y.f.length-x.f.length) || num(x.a.email)-num(y.a.email));
-    for (const x of withFree) for (const s of x.f) if (picks.length < qtd) picks.push({a:x.a, s});
+    withFree.sort((x,y) => (y.has - x.has) || (y.f.length - x.f.length) || num(x.a.email) - num(y.a.email));
+    for (const x of withFree) for (const s of x.f) if (picks.length < qtd) picks.push(s);
   }
-  const plan = picks.map(p => ({type:'livre', email:p.a.email, n:p.s.n}));
+  const plan = picks.map(s => ({type:'livre', id:s.id, host:'', serial:''}));
   const need = qtd - plan.length;
   if (need > 0){
-    const old = activeSlots().sort((x,y) => (x.s.data ? 0 : 1) - (y.s.data ? 0 : 1) || (x.s.data||'').localeCompare(y.s.data||'')).slice(0, need);
-    old.forEach(x => plan.push({type:'reciclar', email:x.a.email, n:x.s.n}));
+    S.active.slice().sort((x,y) => (x.data ? 0 : 1) - (y.data ? 0 : 1) || (x.data||'').localeCompare(y.data||''))
+      .slice(0, need).forEach(s => plan.push({type:'reciclar', id:s.id, host:'', serial:''}));
   }
-  AL.plan = plan; drawPlan();
+  NA.plan = plan;
+  vAtivar();
+  setTimeout(() => { const p = $('#plan'); if (p) p.scrollIntoView({behavior:'smooth', block:'start'}); const f = $('#ph0'); if (f) f.focus({preventScroll:true}); }, 60);
 }
 function drawPlan(){
-  const rec = AL.plan.filter(p => p.type === 'reciclar').length;
-  $('#plan').innerHTML = `<div class="card" style="max-width:820px;margin-top:14px"><h3>Plano para ${esc(AL.cli)} · ${AL.plan.length} máquina${AL.plan.length>1?'s':''}</h3>
-  ${rec ? `<div class="warnbox">Só há ${AL.plan.length-rec} vaga(s) livre(s). <b>${rec}</b> máquina(s) abaixo serão <b>recicladas</b> (as ativações mais antigas). Confira antes de confirmar. Licenças reservadas nunca são sugeridas.</div>` : '<div class="badge b-ok" style="margin-bottom:8px">Há vagas livres suficientes, nenhuma reciclagem necessária</div>'}
-  ${AL.plan.map((p,i) => {
-    const a = DB.accounts.find(x => x.email === p.email), s = a.slots.find(x => x.n === p.n);
-    return `<div class="plan-row"><div><div class="mono">${esc(p.email)} <span class="muted">· vaga ${p.n}</span></div>
-      ${p.type==='livre' ? '<span class="badge b-ok">vaga livre</span>' : `<span class="badge b-warn">reciclar</span> <span class="small muted">${esc(s.cli)} · ${esc(s.host||'sem hostname')} · ${fmt(s.data)}${s.data?` (${ageDays(s.data)} dias)`:''}</span>`}</div>
-      <input type="text" id="ph${i}" placeholder="Hostname"><input type="text" id="ps${i}" placeholder="Serial"></div>`;
-  }).join('')}
-  <div class="err" id="pe" style="margin-top:8px"></div>
-  <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" onclick="AL.plan=null;$('#plan').innerHTML=''">Cancelar</button>
-    ${canEdit() ? `<button class="btn primary" onclick="confirmPlan()">Confirmar ativação</button>` : '<span class="muted small">Seu perfil é somente consulta</span>'}</div></div>`;
+  const P2 = NA.plan, rec = P2.filter(p => p.type === 'reciclar').length;
+  const existing = S.active.filter(s => s.cli === NA.cli).length;
+  $('#plan').innerHTML = `<div class="card" style="max-width:860px;margin-top:16px">
+    <div class="card-h"><h3>${esc(NA.cli)} · ${plural(P2.length,'máquina')}</h3><span class="sub">${existing ? `já tem ${plural(existing,'máquina ativa','máquinas ativas')}` : 'cliente novo'}</span></div>
+    <div class="card-b">
+      ${rec ? `<div class="alert warn" style="margin-bottom:6px">${ic('alert')}<div>Só ${plural(P2.length-rec,'vaga livre','vagas livres')}. <b>${plural(rec,'ativação antiga','ativações antigas')}</b> abaixo ${rec>1?'serão recicladas':'será reciclada'}: a máquina atual perde a licença e a vaga passa para ${esc(NA.cli)}. Confira antes de confirmar.</div></div>`
+            : `<div class="alert ok" style="margin-bottom:6px">${ic('check')}<span>Há vagas livres suficientes. Nenhuma reciclagem necessária.</span></div>`}
+      ${P2.map((p,i) => { const s = S.slotById[p.id]; return `<div class="plan-row">
+        <div style="min-width:0"><div class="mono strong trunc">${esc(s.a.email)} <span class="muted" style="font-weight:400">· vaga ${s.n}</span></div>
+          ${p.type === 'livre' ? '<span class="badge b-ok dotb">vaga livre</span>' : `<span class="badge b-warn">${ic('rec')}reciclar</span> <span class="small muted">${esc(s.cli)} · <span class="mono">${esc(s.host||'sem hostname')}</span> · ${fmt(s.data)}${s.data ? ` (${ageTxt(ageDays(s.data))})` : ''}</span>`}</div>
+        <input class="input mono" id="ph${i}" placeholder="Hostname" value="${esc(p.host)}" oninput="NA.plan[${i}].host=this.value">
+        <div class="field"><input class="input mono" id="ps${i}" placeholder="Serial" value="${esc(p.serial)}" oninput="NA.plan[${i}].serial=this.value;checkSerial(this,null,'#psh${i}')"><span class="help" id="psh${i}"></span></div>
+      </div>`; }).join('')}
+      <div class="alert err hidden" id="pe" style="margin-top:10px"></div>
+    </div>
+    <div class="card-f" style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="NA.plan=null;vAtivar()">Cancelar</button>
+      ${canEdit() ? `<button class="btn primary" id="pok" onclick="confirmPlan(this)">${ic('check','sm')} Confirmar ${plural(P2.length,'ativação','ativações')}</button>` : '<span class="small muted">Seu perfil é somente consulta.</span>'}
+    </div></div>`;
 }
-async function confirmPlan(){
+async function confirmPlan(btn){
+  const er = t => { const x = $('#pe'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(t)}</span>`; };
   const seen = new Set();
-  for (let i = 0; i < AL.plan.length; i++){
-    const sr = $('#ps'+i).value.trim().toUpperCase(); if (!sr) continue;
-    if (seen.has(sr) || serialTaken(sr, null)){ $('#pe').textContent = `Serial ${sr} já está em uso.`; return; }
+  for (const p of NA.plan){
+    const sr = p.serial.trim().toUpperCase(); if (!sr) continue;
+    if (seen.has(sr)) return er(`O serial ${sr} foi digitado duas vezes.`);
+    const o = serialOwner(sr, null);
+    if (o && !(p.type === 'reciclar' && o.id === p.id)) return er(`O serial ${sr} já está em uso na conta ${o.a.email} (${o.cli}).`);
     seen.add(sr);
   }
-  const items = AL.plan.map((p,i) => {
-    const a = DB.accounts.find(x => x.email === p.email), s = a.slots.find(x => x.n === p.n);
-    return {vaga_id:s.id, reciclar:p.type === 'reciclar', cliente:AL.cli, hostname:$('#ph'+i).value.trim(), serial:$('#ps'+i).value.trim().toUpperCase(), data:todayIso()};
+  const rec = NA.plan.filter(p => p.type === 'reciclar');
+  if (rec.length){
+    const b = await confirmBox({title:`Reciclar ${plural(rec.length,'licença','licenças')}?`, tone:'warn', icon:'rec', ok:'Reciclar e ativar',
+      text:`Estas máquinas vão perder a licença:<ul style="margin:10px 0 0;padding-left:18px">${rec.map(p => { const s = S.slotById[p.id]; return `<li><b>${esc(s.cli)}</b> · <span class="mono">${esc(s.host||'sem hostname')}</span> · ${fmt(s.data)}</li>`; }).join('')}</ul>
+        <div class="alert warn" style="margin-top:12px">${ic('alert')}<span>Lembre de desativar o Office nelas.</span></div>`});
+    if (!b) return;
+    closeModal();
+  }
+  const items = NA.plan.map(p => ({vaga_id:p.id, reciclar:p.type === 'reciclar', cliente:NA.cli, hostname:p.host.trim(), serial:p.serial.trim().toUpperCase(), data:NA.data}));
+  await busy(btn, async () => {
+    try {
+      const n = await rpc('ativar_lote', {p_itens:items});
+      await loadData();
+      const ids = items.map(i => i.vaga_id);
+      NA.plan = null; NA.cli = ''; NA.qtd = 1;
+      toast(`${plural(n || items.length,'ativação registrada','ativações registradas')}`);
+      vAtivar();
+      $('#plan').innerHTML = `<div class="card" style="max-width:860px;margin-top:16px"><div class="card-b" style="padding-top:18px">
+        <div class="alert ok">${ic('check')}<span>Pronto! Use estas contas para ativar o Office:</span></div>
+        <div class="mini" style="margin-top:10px">${ids.map(id => { const s = S.slotById[id]; return `<div class="mini-row" onclick="openAccount(${s.a.id})"><div class="mr-m"><div class="mr-t mono">${esc(s.a.email)}</div><div class="mr-s">vaga ${s.n} · <span class="mono">${esc(s.host||'sem hostname')}</span></div></div><span class="btn sm">${ic('key','sm')} Ver senha</span></div>`; }).join('')}</div>
+      </div></div>`;
+    } catch(e){ er(errMsg(e)); }
   });
-  $('#pe').textContent = 'Salvando…';
-  const {error} = await sb.rpc('ativar_lote', {p_itens: items});
-  if (error){ $('#pe').textContent = error.message; return; }
-  await loadData(); const n = items.length; AL.plan = null; toast(`${n} ativação(ões) registrada(s)`); vAlocar();
 }
 
-/* ---------- reciclagem ---------- */
+/* =====================================================================
+   RECICLAGEM
+   ===================================================================== */
+const RV = {q:'', age:'180', cli:'', page:0};
 let SEL = new Set();
 function vReciclar(){
-  const cl = clientList();
-  $('#main').innerHTML = head('Reciclagem', 'Libere as ativações mais antigas para reaproveitar as licenças. Licenças reservadas ficam de fora.') + `
-  <div class="tools">
-    <input type="search" class="search" placeholder="Buscar cliente, hostname ou conta…" value="${esc(F.rq)}" oninput="F.rq=this.value;vRecBody()">
-    <select style="width:auto" onchange="F.rage=this.value;vRecBody()">${[['0','Qualquer idade'],['90','Mais de 90 dias'],['180','Mais de 180 dias'],['270','Mais de 270 dias'],['365','Mais de 1 ano']].map(([v,l]) => `<option value="${v}" ${F.rage===v?'selected':''}>${l}</option>`).join('')}</select>
-    <select style="width:auto;max-width:240px" onchange="F.rcli=this.value;vRecBody()"><option value="">Todos os clientes</option>${cl.map(([n,c]) => `<option value="${esc(n)}" ${F.rcli===n?'selected':''}>${esc(n)} (${c})</option>`).join('')}</select>
-    <button class="btn danger" id="rbtn" onclick="confirmBulk()" ${canEdit()?'':'disabled'}>Liberar selecionadas (0)</button>
-  </div><div id="rbody"></div>`;
+  $('#view').innerHTML = pageHead('Reciclagem', 'Libere as ativações mais antigas para reaproveitar licenças. Vagas reservadas e máquinas sem data ficam de fora.') + `
+  <div class="toolbar">
+    <div class="searchbox">${ic('search','sm')}<input class="input" type="search" placeholder="Buscar cliente, hostname ou conta" value="${esc(RV.q)}" oninput="RV.q=this.value;RV.page=0;vRecBody()"></div>
+    <select class="input" onchange="RV.age=this.value;RV.page=0;vRecBody()">${[['0','Qualquer idade'],['90','Mais de 3 meses'],['180','Mais de 6 meses'],['270','Mais de 9 meses'],['365','Mais de 1 ano'],['730','Mais de 2 anos']].map(([v,l]) => `<option value="${v}" ${RV.age===v?'selected':''}>${l}</option>`).join('')}</select>
+    <select class="input" onchange="RV.cli=this.value;RV.page=0;vRecBody()"><option value="">Todos os clientes</option>${S.clients.map(([n,c]) => `<option value="${esc(n)}" ${RV.cli===n?'selected':''}>${esc(n)} (${c})</option>`).join('')}</select>
+  </div><div id="rbody"></div><div id="selbar"></div>`;
   vRecBody();
 }
-const rkey = x => x.a.email + '#' + x.s.n;
 function recList(){
-  const q = norm(F.rq), min = parseInt(F.rage);
-  return activeSlots().filter(x => x.s.data && ageDays(x.s.data) >= min && (!F.rcli || x.s.cli === F.rcli) && (!q || norm([x.s.cli,x.s.host,x.a.email].join(' ')).includes(q)))
-    .sort((a,b) => a.s.data.localeCompare(b.s.data));
+  const q = norm(RV.q), min = parseInt(RV.age);
+  return S.active.filter(s => s.data && ageDays(s.data) >= min && (!RV.cli || s.cli === RV.cli) && (!q || norm([s.cli,s.host,s.a.email].join(' ')).includes(q)))
+    .sort((a,b) => a.data.localeCompare(b.data));
 }
+function rPage(p){ RV.page = p; vRecBody(); }
 function vRecBody(){
-  const L = recList();
-  $('#rbody').innerHTML = `<div class="tw"><table><thead><tr><th style="width:36px"><input type="checkbox" onchange="selAll(this.checked)"></th><th>Cliente</th><th>Hostname</th><th>Conta / vaga</th><th>Ativada em</th><th>Idade</th></tr></thead><tbody>
-  ${L.slice(0,300).map(x => `<tr><td><input type="checkbox" ${SEL.has(rkey(x))?'checked':''} ${canEdit()?'':'disabled'} onchange="selOne('${rkey(x)}',this.checked)"></td><td><b>${esc(x.s.cli)}</b></td><td class="mono">${esc(x.s.host)||'—'}</td><td class="mono small">${esc(x.a.email)} <span class="muted">#${x.s.n}</span></td><td>${dateTag(x.s)}</td><td><span class="badge b-n">${ageDays(x.s.data)} dias</span></td></tr>`).join('') || '<tr><td colspan="6" class="empty">Nenhuma ativação neste filtro.</td></tr>'}
-  </tbody></table></div><div class="count">${L.length} ativações · ordenadas da mais antiga para a mais recente · máquinas sem data não aparecem aqui</div>`;
-  updRbtn();
+  const L = recList(), pg = L.slice(RV.page*PAGE, (RV.page+1)*PAGE), ed = canEdit();
+  const allOn = pg.length && pg.every(s => SEL.has(s.id));
+  $('#rbody').innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr>
+    <th style="width:40px">${ed ? `<input type="checkbox" title="Selecionar página" ${allOn?'checked':''} onchange="selPage(this.checked)">` : ''}</th><th>Cliente</th><th>Hostname</th><th class="hide-sm">Conta</th><th>Ativada em</th><th>Idade</th></tr></thead><tbody>
+  ${pg.map(s => `<tr class="${SEL.has(s.id)?'sel':''} ${ed?'click':''}" ${ed ? `onclick="if(event.target.tagName!=='INPUT')selOne(${s.id})"` : ''}>
+    <td>${ed ? `<input type="checkbox" ${SEL.has(s.id)?'checked':''} onchange="selOne(${s.id})">` : ''}</td><td class="strong">${esc(s.cli)}</td><td class="mono">${esc(s.host)||'<span class="muted">—</span>'}</td>
+    <td class="mono small hide-sm nowrap">${slotRef(s)}</td><td class="nowrap">${dateTag(s)}</td><td><span class="badge ${ageDays(s.data) >= 365 ? 'b-warn' : ''}">${ageTxt(ageDays(s.data))}</span></td></tr>`).join('')
+    || `<tr><td colspan="6">${emptyBox('rec','Nenhuma ativação neste filtro','Diminua a idade mínima ou limpe a busca.')}</td></tr>`}
+  </tbody></table></div>${pager(L.length, RV.page, PAGE, 'rPage')}</div>`;
+  drawSelbar();
 }
-function updRbtn(){ const b = $('#rbtn'); if (b) b.textContent = `Liberar selecionadas (${SEL.size})`; }
-function selOne(k, on){ on ? SEL.add(k) : SEL.delete(k); updRbtn(); }
-function selAll(on){ recList().slice(0,300).forEach(x => on ? SEL.add(rkey(x)) : SEL.delete(rkey(x))); vRecBody(); }
-function confirmBulk(){
-  if (!SEL.size){ toast('Selecione ao menos uma máquina'); return; }
-  modal(`<h3>Liberar ${SEL.size} vaga(s)?</h3><p>As vagas ficarão <b>livres</b> para reutilização e a ação será registrada no histórico. Lembre de desativar o Office nas máquinas correspondentes.</p>
-  <div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn danger" onclick="doBulk()">Liberar ${SEL.size}</button></div>`);
+function selOne(id){ SEL.has(id) ? SEL.delete(id) : SEL.add(id); vRecBody(); }
+function selPage(on){ recList().slice(RV.page*PAGE, (RV.page+1)*PAGE).forEach(s => on ? SEL.add(s.id) : SEL.delete(s.id)); vRecBody(); }
+function drawSelbar(){
+  [...SEL].forEach(id => { const s = S.slotById[id]; if (!s || s.st !== 'ativo') SEL.delete(id); });
+  const b = $('#selbar'); if (!b) return;
+  b.innerHTML = SEL.size ? `<div class="selbar"><span class="strong">${plural(SEL.size,'selecionada','selecionadas')}</span>
+    <button class="btn sm ghost" onclick="SEL.clear();vRecBody()">Limpar</button><button class="btn sm danger" onclick="confirmBulk()">${ic('unlock','sm')} Liberar ${SEL.size}</button></div>` : '';
 }
-async function doBulk(){
-  const ids = []; activeSlots().forEach(x => { if (SEL.has(rkey(x))) ids.push(x.s.id); });
-  const {data, error} = await sb.rpc('liberar_lote', {p_vagas: ids});
-  if (error){ toast(error.message); return; }
-  SEL.clear(); await loadData(); closeModal(); toast(`${data} vaga(s) liberada(s)`); vReciclar();
+async function confirmBulk(){
+  const ids = [...SEL];
+  const sample = ids.slice(0, 6).map(id => S.slotById[id]);
+  const btn = await confirmBox({title:`Liberar ${plural(ids.length,'vaga','vagas')}?`, tone:'bad', icon:'unlock', ok:`Liberar ${ids.length}`,
+    text:`As vagas ficam livres para novas ativações e a ação vai para o histórico.<ul style="margin:10px 0 0;padding-left:18px">${sample.map(s => `<li><b>${esc(s.cli)}</b> · <span class="mono">${esc(s.host||'sem hostname')}</span> · ${fmt(s.data)}</li>`).join('')}${ids.length > 6 ? `<li class="muted">e mais ${ids.length-6}</li>` : ''}</ul>
+      <div class="alert warn" style="margin-top:12px">${ic('alert')}<span>Lembre de desativar o Office nessas máquinas.</span></div>`});
+  if (!btn) return;
+  await busy(btn, async () => {
+    try { const n = await rpc('liberar_lote', {p_vagas:ids}); SEL.clear(); await loadData(); closeModal(); toast(`${plural(n,'vaga liberada','vagas liberadas')}`); renderView(); }
+    catch(e){ closeModal(); toast(errMsg(e), 'err'); }
+  });
 }
 
-/* ---------- qualidade ---------- */
+/* =====================================================================
+   QUALIDADE DOS DADOS
+   ===================================================================== */
+const QV = {tab:'inc', page:0};
 function vQualidade(){
-  const q = qualityIssues();
-  const list = (arr, fn, max=12) => arr.length ? `<table><tbody>${arr.slice(0,max).map(fn).join('')}</tbody></table>${arr.length>max?`<div class="count">+ ${arr.length-max} outros</div>`:''}` : '<div class="badge b-ok">Tudo certo</div>';
-  const row = x => `<tr class="click" onclick="openAccount('${x.a.email}')"><td>${esc(x.s.cli)}</td><td class="mono">${esc(x.s.host||'—')}</td><td class="mono">${esc(x.s.serial||'—')}</td><td class="mono small">${esc(x.a.email)} #${x.s.n}</td></tr>`;
-  const renamed = {};
-  activeSlots().forEach(x => { if (x.s.orig && x.s.orig.trim().toUpperCase() !== x.s.cli) (renamed[x.s.cli] ||= new Set()).add(x.s.orig.trim()); });
-  const rn = Object.entries(renamed).filter(([k,v]) => v.size).sort((a,b) => b[1].size - a[1].size);
-  $('#main').innerHTML = head('Qualidade dos dados', 'Itens que merecem revisão nos dados atuais') + `
-  <div class="grid cols2">
-    <div class="card"><h3>Seriais duplicados <span class="badge ${q.dup.length?'b-bad':'b-ok'}">${q.dup.length}</span></h3>
-      ${list(q.dup, ([k,v]) => `<tr><td class="mono">${esc(k)}</td><td class="small">${v.map(x => `<a href="#" onclick="openAccount('${x.a.email}');return false">${esc(x.s.cli)} (${esc(x.a.email.split('@')[0])})</a>`).join(' · ')}</td></tr>`)}</div>
-    <div class="card"><h3>Cliente não identificado <span class="badge ${q.noClient.length?'b-warn':'b-ok'}">${q.noClient.length}</span></h3>${list(q.noClient,row)}</div>
-    <div class="card"><h3>Sem hostname <span class="badge ${q.noHost.length?'b-warn':'b-ok'}">${q.noHost.length}</span></h3>${list(q.noHost,row)}</div>
-    <div class="card"><h3>Sem serial <span class="badge ${q.noSerial.length?'b-warn':'b-ok'}">${q.noSerial.length}</span></h3>${list(q.noSerial,row)}</div>
-    <div class="card"><h3>Datas para confirmar <span class="badge b-warn">${q.inc.length}</span></h3>
-      <div class="small muted" style="margin-bottom:8px">Na planilha, parte das datas foi gravada com dia e mês trocados (ex.: 07/02 que na verdade é 02/07). Nelas o dia é 12 ou menos, então não dá para ter certeza. Corrigimos as que caíam no futuro; as demais estão marcadas com <span class="badge b-warn">?</span> para você confirmar. Isso afeta a ordem da reciclagem.</div>
-      ${list(q.inc, x => `<tr class="click" onclick="openAccount('${x.a.email}')"><td>${esc(x.s.cli)}</td><td class="mono">${esc(x.s.host||'—')}</td><td>${fmt(x.s.data)}</td></tr>`, 6)}</div>
-  </div>`;
+  const q = S.q;
+  const tabs = [['inc','Datas a confirmar',q.inc.length],['dup','Seriais duplicados',q.dup.length],['noClient','Cliente não identificado',q.noClient.length],['noHost','Sem hostname',q.noHost.length],['noSerial','Sem serial',q.noSerial.length],['noDate','Sem data',q.noDate.length]];
+  $('#view').innerHTML = pageHead('Qualidade dos dados', 'Itens que merecem revisão. Corrigir aqui deixa a reciclagem mais confiável.') + `
+  <div class="tabs">${tabs.map(([k,l,n]) => `<button class="tab ${QV.tab===k?'on':''}" onclick="QV.tab='${k}';QV.page=0;vQualidade()">${l}<span class="badge ${n ? (k==='dup'?'b-bad':'b-warn') : 'b-ok'}">${n}</span></button>`).join('')}</div>
+  <div id="qbody"></div>`;
+  vQualBody();
+}
+function qPage(p){ QV.page = p; vQualBody(); }
+function vQualBody(){
+  const q = S.q, ed = canEdit();
+  const rowsBasic = arr => {
+    const pg = arr.slice(QV.page*PAGE, (QV.page+1)*PAGE);
+    return `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Cliente</th><th>Hostname</th><th class="hide-sm">Serial</th><th>Conta</th><th>Ativada em</th></tr></thead><tbody>
+    ${pg.map(s => `<tr class="click" onclick="openAccount(${s.a.id})"><td class="strong">${esc(s.cli)}</td><td class="mono">${esc(s.host)||'<span class="muted">—</span>'}</td><td class="mono hide-sm">${esc(s.serial)||'<span class="muted">—</span>'}</td><td class="mono small nowrap">${slotRef(s)}</td><td class="nowrap">${dateTag(s)}</td></tr>`).join('')
+      || `<tr><td colspan="5">${emptyBox('check','Tudo certo','Nenhum item nesta categoria.')}</td></tr>`}
+    </tbody></table></div>${arr.length ? pager(arr.length, QV.page, PAGE, 'qPage') : ''}</div>`;
+  };
+  let html = '';
+  if (QV.tab === 'inc'){
+    const pg = q.inc.slice(QV.page*PAGE, (QV.page+1)*PAGE);
+    html = `<div class="alert info" style="margin-bottom:14px">${ic('info')}<div>Na planilha antiga, parte das datas veio com <b>dia e mês trocados</b> (ex.: 07/02 que era 02/07). Quando o dia é 12 ou menos não dá para saber qual é o certo. Para cada item, <b>confirme</b> a data como está ou <b>inverta</b> dia e mês.</div></div>
+    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Cliente</th><th class="hide-sm">Hostname</th><th>Conta</th><th>Data atual</th><th>Se inverter</th>${ed ? '<th class="right">Ação</th>' : ''}</tr></thead><tbody>
+    ${pg.map(s => { const sw = swapDate(s.data); return `<tr><td class="strong">${esc(s.cli)}</td><td class="mono hide-sm">${esc(s.host)||'<span class="muted">—</span>'}</td><td class="mono small nowrap"><a href="#" onclick="openAccount(${s.a.id});return false">${slotRef(s)}</a></td>
+      <td class="nowrap">${fmt(s.data)}</td><td class="nowrap">${sw ? fmt(sw) : '<span class="muted">—</span>'}</td>
+      ${ed ? `<td class="right nowrap"><button class="btn sm" onclick="fixDate(${s.id},false,this)">${ic('check','sm')} Confirmar</button> ${sw ? `<button class="btn sm" onclick="fixDate(${s.id},true,this)">${ic('swap','sm')} Inverter</button>` : ''}</td>` : ''}</tr>`; }).join('')
+      || `<tr><td colspan="6">${emptyBox('check','Todas as datas foram confirmadas')}</td></tr>`}
+    </tbody></table></div>${q.inc.length ? pager(q.inc.length, QV.page, PAGE, 'qPage') : ''}</div>`;
+  } else if (QV.tab === 'dup'){
+    html = `<div class="alert warn" style="margin-bottom:14px">${ic('alert')}<span>O mesmo serial aparece em mais de uma vaga ativa. Normalmente é a mesma máquina ativada duas vezes. Libere a vaga que sobra.</span></div>
+    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Serial</th><th>Onde aparece</th></tr></thead><tbody>
+    ${q.dup.map(([k,v]) => `<tr><td class="mono strong">${esc(k)}</td><td><div class="mini">${v.map(s => `<div class="mini-row" onclick="openAccount(${s.a.id})"><div class="mr-m"><div class="mr-t">${esc(s.cli)}</div><div class="mr-s"><span class="mono">${esc(s.host||'sem hostname')}</span> · ${slotRef(s)} · ${fmt(s.data)}</div></div></div>`).join('')}</div></td></tr>`).join('')
+      || `<tr><td colspan="2">${emptyBox('check','Nenhum serial duplicado')}</td></tr>`}
+    </tbody></table></div></div>`;
+  } else html = rowsBasic(q[QV.tab]);
+  $('#qbody').innerHTML = html;
+}
+function swapDate(d){
+  if (!d) return null;
+  const [y, m, dd] = d.split('-');
+  if (+dd > 12 || dd === m) return null;
+  const n = `${y}-${dd}-${m}`;
+  return n <= todayIso() ? n : null;
+}
+async function fixDate(id, swap, btn){
+  const s = S.slotById[id];
+  await busy(btn, async () => {
+    try {
+      await rpc('editar_vaga', {p_vaga:s.id, p_cliente:s.cli, p_hostname:s.host, p_serial:s.serial, p_data:swap ? swapDate(s.data) : s.data, p_proposta:s.prop, p_obs:s.obs});
+      await loadData(); toast(swap ? 'Data invertida e confirmada' : 'Data confirmada');
+      renderNav(); vQualidade();
+    } catch(e){ toast(errMsg(e), 'err'); }
+  });
 }
 
-/* ---------- histórico ---------- */
-async function vHistorico(){
-  $('#main').innerHTML = head('Histórico', 'Quem fez o quê e quando (últimas 300 ações)') + '<div class="empty">Carregando…</div>';
-  const {data, error} = await sb.from('historico').select('quando,usuario_nome,acao,detalhe').order('quando', {ascending:false}).limit(300);
-  if (view !== 'historico') return;
-  const L = data || [];
-  $('#main').innerHTML = head('Histórico', 'Quem fez o quê e quando (últimas 300 ações)') + `
-  <div class="tw"><table><thead><tr><th>Quando</th><th>Usuário</th><th>Ação</th><th>Detalhe</th></tr></thead><tbody>
-  ${error ? `<tr><td colspan="4" class="empty">Erro: ${esc(error.message)}</td></tr>` : L.map(l => `<tr><td class="small">${new Date(l.quando).toLocaleString('pt-BR')}</td><td>${esc(l.usuario_nome)}</td><td><span class="badge b-n">${esc(l.acao)}</span></td><td class="small">${esc(l.detalhe)}</td></tr>`).join('') || '<tr><td colspan="4" class="empty">Nenhuma ação registrada ainda.</td></tr>'}
-  </tbody></table></div>`;
+/* =====================================================================
+   HISTÓRICO
+   ===================================================================== */
+const HV = {q:'', acao:'', page:0};
+const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada'];
+function vHistorico(){
+  $('#view').innerHTML = pageHead('Histórico', 'Tudo o que foi feito na ferramenta: quem, o quê e quando.') + `
+  <div class="toolbar">
+    <div class="searchbox">${ic('search','sm')}<input class="input" type="search" placeholder="Buscar usuário ou detalhe (cliente, conta, hostname)" value="${esc(HV.q)}" oninput="clearTimeout(HV.t);HV.t=setTimeout(()=>{HV.q=this.value;HV.page=0;loadHist()},300)"></div>
+    <select class="input" onchange="HV.acao=this.value;HV.page=0;loadHist()"><option value="">Todas as ações</option>${ACOES.map(a => `<option ${HV.acao===a?'selected':''}>${a}</option>`).join('')}</select>
+  </div><div id="hbody"><div class="skel" style="height:260px"></div></div>`;
+  loadHist();
+}
+function hPage(p){ HV.page = p; loadHist(); }
+async function loadHist(){
+  let qy = sb.from('historico').select('quando,usuario_nome,acao,detalhe', {count:'exact'}).order('quando', {ascending:false}).range(HV.page*PAGE, (HV.page+1)*PAGE - 1);
+  if (HV.acao) qy = qy.eq('acao', HV.acao);
+  const t = HV.q.trim().replace(/[,()%*\\]/g, ' ').trim();
+  if (t) qy = qy.or(`detalhe.ilike.*${t}*,usuario_nome.ilike.*${t}*`);
+  const {data, error, count} = await qy;
+  const el = $('#hbody'); if (!el || S.view !== 'historico') return;
+  if (error){ el.innerHTML = `<div class="alert err">${ic('alert')}<span>${esc(errMsg(error))}</span></div>`; return; }
+  const tone = a => /Senha/.test(a) ? 'b-res' : /liberad/i.test(a) ? 'b-warn' : /ativada|criada/i.test(a) ? 'b-ok' : 'b-acc';
+  el.innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Quando</th><th>Usuário</th><th>Ação</th><th>Detalhe</th></tr></thead><tbody>
+  ${(data||[]).map(l => `<tr><td class="nowrap"><div class="small">${new Date(l.quando).toLocaleDateString('pt-BR')}</div><div class="sub">${timeHM(l.quando)}</div></td>
+    <td class="nowrap">${esc(l.usuario_nome || '—')}</td><td><span class="badge ${tone(l.acao)}">${esc(l.acao)}</span></td><td class="small">${esc(l.detalhe)}</td></tr>`).join('')
+    || `<tr><td colspan="4">${emptyBox('clock','Nenhuma ação encontrada')}</td></tr>`}
+  </tbody></table></div>${pager(count || 0, HV.page, PAGE, 'hPage')}</div>`;
 }
 
-/* ---------- usuários ---------- */
+/* =====================================================================
+   USUÁRIOS
+   ===================================================================== */
 async function vUsuarios(){
-  $('#main').innerHTML = head('Usuários', 'Quem pode acessar a ferramenta') + '<div class="empty">Carregando…</div>';
-  const {data, error} = await sb.from('perfis').select('id,nome,perfil,ativo').order('nome');
-  if (view !== 'usuarios') return;
-  const L = data || [];
-  $('#main').innerHTML = head('Usuários', 'Quem pode acessar a ferramenta') + `
-  <div class="tw"><table><thead><tr><th>Nome</th><th>Perfil</th><th>Acesso</th></tr></thead><tbody>
-  ${error ? `<tr><td colspan="3" class="empty">Erro: ${esc(error.message)}</td></tr>` : L.map(u => `<tr><td><b>${esc(u.nome)}</b> ${u.id===me.id?'<span class="badge b-acc">você</span>':''}</td>
-    <td>${isAdmin() && u.id!==me.id ? `<select style="width:auto" onchange="setPerfil('${u.id}',this.value)">${['admin','operador','consulta'].map(p => `<option value="${p}" ${u.perfil===p?'selected':''}>${PERFIL[p]}</option>`).join('')}</select>` : `<span class="badge ${u.perfil==='admin'?'b-res':u.perfil==='operador'?'b-acc':'b-n'}">${PERFIL[u.perfil]}</span>`}</td>
-    <td>${isAdmin() && u.id!==me.id ? `<button class="btn sm ${u.ativo?'danger':''}" onclick="setAtivo('${u.id}',${!u.ativo})">${u.ativo?'Bloquear':'Reativar'}</button>` : (u.ativo?'<span class="badge b-ok">ativo</span>':'<span class="badge b-bad">bloqueado</span>')}</td></tr>`).join('')}
-  </tbody></table></div>
-  <div class="card" style="margin-top:14px;max-width:720px"><h3>Perfis</h3>
-    <div class="small"><b>Administrador:</b> tudo, inclusive gerenciar usuários.<br><b>Operador:</b> consulta e altera licenças (ativar, editar, liberar).<br><b>Consulta:</b> só visualiza contas e senhas, sem alterar nada.</div>
-    ${isAdmin() ? '<div class="small muted" style="margin-top:12px">Para criar um novo usuário: no Supabase, vá em <b>Authentication → Users → Add user</b>. Ele entra como Consulta; depois ajuste o perfil aqui.</div>' : ''}</div>`;
+  $('#view').innerHTML = pageHead('Usuários', 'Quem pode acessar a ferramenta e o que cada um pode fazer.') + '<div id="ubody"><div class="skel" style="height:180px"></div></div>';
+  const {data, error} = await sb.from('perfis').select('id,nome,perfil,ativo,criado_em').order('criado_em');
+  const el = $('#ubody'); if (!el || S.view !== 'usuarios') return;
+  if (error){ el.innerHTML = `<div class="alert err">${ic('alert')}<span>${esc(errMsg(error))}</span></div>`; return; }
+  const adm = isAdmin();
+  S.users = data || [];
+  el.innerHTML = `<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Usuário</th><th>Perfil</th><th>Acesso</th>${adm ? '<th></th>' : ''}</tr></thead><tbody>
+  ${(data||[]).map(u => { const self = u.id === S.me.id; return `<tr>
+    <td><div style="display:flex;gap:10px;align-items:center"><span class="avatar">${esc((u.nome[0]||'?').toUpperCase())}</span><div><div class="strong">${esc(u.nome)} ${self ? '<span class="badge b-acc">você</span>' : ''}</div><div class="sub">desde ${new Date(u.criado_em).toLocaleDateString('pt-BR')}</div></div></div></td>
+    <td>${adm && !self ? `<select class="input" style="width:auto;height:32px" onchange="setPerfil('${u.id}',this.value)">${Object.entries(PERFIL).map(([k,l]) => `<option value="${k}" ${u.perfil===k?'selected':''}>${l}</option>`).join('')}</select>`
+        : `<span class="badge ${u.perfil==='admin'?'b-res':u.perfil==='operador'?'b-acc':''}">${PERFIL[u.perfil]}</span>`}</td>
+    <td>${u.ativo ? '<span class="badge b-ok dotb">ativo</span>' : '<span class="badge b-bad dotb">bloqueado</span>'}</td>
+    ${adm ? `<td class="right nowrap"><button class="btn sm" onclick="renameUser('${u.id}')">${ic('edit','sm')} Nome</button>
+      ${self ? '' : `<button class="btn sm" style="${u.ativo?'color:var(--bad)':''}" onclick="setAtivo('${u.id}',${!u.ativo})">${u.ativo ? 'Bloquear' : 'Reativar'}</button>`}</td>` : ''}</tr>`; }).join('')}
+  </tbody></table></div></div>
+  ${adm ? '' : '<div class="small muted" style="margin-top:10px">Só o administrador vê a lista completa de usuários.</div>'}
+  <div class="grid cols2" style="margin-top:16px">
+    <div class="card"><div class="card-h"><h3>O que cada perfil pode fazer</h3></div><div class="card-b"><div class="mini">
+      <div class="mini-row" style="cursor:default"><span class="badge b-res">Administrador</span><span class="small">Tudo, inclusive gerenciar usuários.</span></div>
+      <div class="mini-row" style="cursor:default"><span class="badge b-acc">Operador</span><span class="small">Consulta e altera licenças: ativar, editar, liberar, criar contas.</span></div>
+      <div class="mini-row" style="cursor:default"><span class="badge">Consulta</span><span class="small">Só visualiza contas, máquinas e senhas.</span></div>
+    </div></div></div>
+    ${adm ? `<div class="card"><div class="card-h"><h3>Adicionar um usuário</h3></div><div class="card-b small" style="color:var(--text-2)">
+      <ol style="margin:0;padding-left:18px;display:grid;gap:6px">
+        <li>No Supabase, abra <a href="https://supabase.com/dashboard/project/${(window.SUPABASE_URL.match(/https:\/\/([^.]+)/)||[])[1]}/auth/users" target="_blank" rel="noopener">Authentication → Users</a>.</li>
+        <li>Clique em <b>Add user → Create new user</b>, informe e-mail e senha e marque <b>Auto Confirm User</b>.</li>
+        <li>Volte aqui: a pessoa aparece como <b>Consulta</b>. Ajuste o perfil e o nome.</li>
+      </ol></div></div>` : ''}
+  </div>`;
 }
 async function setPerfil(id, perfil){
   const {error} = await sb.from('perfis').update({perfil}).eq('id', id);
-  toast(error ? 'Erro: ' + error.message : 'Perfil atualizado'); vUsuarios();
+  error ? toast(errMsg(error), 'err') : toast('Perfil atualizado'); vUsuarios();
 }
 async function setAtivo(id, ativo){
+  if (!ativo){ const b = await confirmBox({title:'Bloquear usuário?', tone:'bad', icon:'lock', ok:'Bloquear', text:'A pessoa perde o acesso imediatamente. Você pode reativar depois.'}); if (!b) return; closeModal(); }
   const {error} = await sb.from('perfis').update({ativo}).eq('id', id);
-  toast(error ? 'Erro: ' + error.message : (ativo ? 'Usuário reativado' : 'Usuário bloqueado')); vUsuarios();
+  error ? toast(errMsg(error), 'err') : toast(ativo ? 'Usuário reativado' : 'Usuário bloqueado'); vUsuarios();
+}
+function renameUser(id){
+  const u = (S.users || []).find(x => x.id === id); if (!u) return;
+  const m = modal({title:'Nome do usuário', icon:'user', body:`<div class="field"><label>Nome exibido</label><input class="input" id="un" value="${esc(u.nome)}"></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" id="unok">Salvar</button>`});
+  $('#unok', m).onclick = e => busy(e.currentTarget, async () => {
+    const v = $('#un').value.trim(); if (!v) return;
+    const {error} = await sb.from('perfis').update({nome:v}).eq('id', id);
+    if (error) return toast(errMsg(error), 'err');
+    closeModal(); toast('Nome atualizado');
+    if (id === S.me.id){ S.me.nome = v; renderShell(); renderView(); } else vUsuarios();
+  });
+  setTimeout(() => { const i = $('#un'); i.focus(); i.select(); }, 50);
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape'){ if ($('#mdl')) closeModal(); else closeLayer(); } });
+/* =====================================================================
+   BUSCA RÁPIDA (Ctrl+K)
+   ===================================================================== */
+let PAL = {sel:0, items:[]};
+function openPalette(){
+  if (!S.me || $('#pal')) return;
+  closeSide();
+  $('#layer').insertAdjacentHTML('beforeend', `<div class="scrim" id="pscrim" style="z-index:70" onclick="closePalette()"></div>
+  <div class="palette" id="pal" role="dialog" aria-modal="true">
+    <div class="palette-in">${ic('search')}<input id="pin" placeholder="Conta, cliente, hostname ou serial…" autocomplete="off" oninput="palSearch(this.value)" onkeydown="palKey(event)"><kbd>Esc</kbd></div>
+    <div class="palette-r" id="pres"></div>
+    <div class="palette-f"><span><kbd>↑</kbd> <kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span></div>
+  </div>`);
+  palSearch(''); $('#pin').focus();
+}
+function closePalette(){ ['#pal','#pscrim'].forEach(s => { const e = $(s); if (e) e.remove(); }); }
+function palSearch(v){
+  const q = norm(v.trim());
+  const items = [];
+  const pages = Object.entries(TITLES).filter(([k,l]) => !q || norm(l).includes(q)).map(([k,l]) => ({g:'Ir para', icon:'arrow', t:l, s:'', act:() => go(k)}));
+  if (q){
+    S.accounts.filter(a => norm(a.email).includes(q)).slice(0, 6).forEach(a => items.push({g:'Contas', icon:'mail', t:a.email, s:`${a.c.u} em uso · ${plural(a.c.f,'livre')}`, act:() => openAccount(a.id), mono:true}));
+    S.active.filter(s => norm([s.cli,s.host,s.serial].join(' ')).includes(q)).slice(0, 10).forEach(s => items.push({g:'Máquinas', icon:'pc', t:`${s.cli} · ${s.host || 'sem hostname'}`, s:`${s.serial || 'sem serial'} · ${s.a.email} vaga ${s.n}`, act:() => openAccount(s.a.id)}));
+    S.clients.filter(([n]) => norm(n).includes(q)).slice(0, 5).forEach(([n,c]) => items.push({g:'Clientes', icon:'users', t:n, s:plural(c,'máquina'), act:() => { MV.cli = n; MV.q = ''; MV.page = 0; go('maquinas'); }}));
+  }
+  items.push(...pages.slice(0, q ? 3 : 8));
+  PAL = {sel:0, items};
+  drawPal();
+}
+function drawPal(){
+  let g = '', html = '';
+  PAL.items.forEach((it, i) => {
+    if (it.g !== g){ g = it.g; html += `<div class="pr-g">${g}</div>`; }
+    html += `<div class="pr ${i===PAL.sel?'on':''}" onmouseenter="PAL.sel=${i};drawPal()" onclick="palGo(${i})">${ic(it.icon)}<div style="min-width:0"><div class="t trunc ${it.mono?'mono':''}">${esc(it.t)}</div>${it.s ? `<div class="s trunc">${esc(it.s)}</div>` : ''}</div></div>`;
+  });
+  $('#pres').innerHTML = html || `<div class="empty" style="padding:28px">Nada encontrado.</div>`;
+  const on = $('#pres .pr.on'); if (on) on.scrollIntoView({block:'nearest'});
+}
+function palKey(e){
+  if (e.key === 'ArrowDown'){ e.preventDefault(); PAL.sel = Math.min(PAL.items.length-1, PAL.sel+1); drawPal(); }
+  else if (e.key === 'ArrowUp'){ e.preventDefault(); PAL.sel = Math.max(0, PAL.sel-1); drawPal(); }
+  else if (e.key === 'Enter'){ e.preventDefault(); palGo(PAL.sel); }
+}
+function palGo(i){ const it = PAL.items[i]; if (!it) return; closePalette(); it.act(); }
+
+/* =====================================================================
+   TECLADO, FOCO E INÍCIO
+   ===================================================================== */
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); $('#pal') ? closePalette() : openPalette(); return; }
+  if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && S.me){ e.preventDefault(); openPalette(); return; }
+  if (e.key === 'Escape'){
+    if ($('#pal')) closePalette(); else if ($('#mdl')) closeModal(); else if ($('#drawer')) closeDrawer(); else closeSide();
+  }
+});
+window.addEventListener('focus', () => { if (S.me && Date.now() - S.loadedAt > 60000) reload(true); });
+const VIEWS = {painel:vPainel, contas:vContas, maquinas:vMaquinas, ativar:vAtivar, reciclar:vReciclar, qualidade:vQualidade, historico:vHistorico, usuarios:vUsuarios};
 init();
 </script>
 </body>
