@@ -138,7 +138,7 @@ kbd{font:600 11px/1 Inter,sans-serif;padding:3px 6px;border-radius:5px;border:1p
 
 /* ---------- shell ---------- */
 .app{display:grid;grid-template-columns:262px minmax(0,1fr);min-height:100vh}
-.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--line);padding:18px 12px 12px;z-index:40}
+.side{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--line);padding:18px 12px 12px;z-index:40}
 
 .nav-group{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:14px 10px 6px}
 .nav{display:flex;align-items:center;gap:11px;width:100%;height:36px;padding:0 10px;border:0;background:none;border-radius:8px;color:var(--text-2);font-weight:500;cursor:pointer;text-align:left}
@@ -148,7 +148,8 @@ kbd{font:600 11px/1 Inter,sans-serif;padding:3px 6px;border-radius:5px;border:1p
 .nav.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .nav.on .ic{color:var(--accent)}
 .nav .badge{margin-left:auto;height:20px;padding:0 7px;font-size:11px}
-.side .spacer{flex:1}
+#nav{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0 -6px;padding:0 6px;scrollbar-width:thin}
+.brand-logo,.me{flex:none}
 .me{display:flex;align-items:center;gap:10px;padding:10px 8px 2px;border-top:1px solid var(--line);margin-top:10px}
 .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--accent-soft);color:var(--accent);flex:none}
 .me .who{min-width:0;flex:1}
@@ -317,10 +318,17 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:po
 @keyframes sk{to{background-position:-200% 0}}
 
 /* ---------- responsivo ---------- */
+@media (max-height:760px){
+  .side{padding-top:12px}
+  .brand-logo{padding-bottom:8px;gap:4px} .brand-logo img{width:140px}
+  .nav-group{padding:8px 10px 3px}
+  .nav{height:32px}
+  .me{padding-top:8px;margin-top:6px}
+}
 @media (max-width:1180px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .cols3{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:960px){
   .app{grid-template-columns:1fr}
-  .side{position:fixed;left:0;top:0;bottom:0;width:272px;transform:translateX(-100%);transition:transform .2s ease;box-shadow:var(--shadow-lg)}
+  .side{position:fixed;left:0;top:0;bottom:0;height:auto;width:272px;transform:translateX(-100%);transition:transform .2s ease;box-shadow:var(--shadow-lg)}
   .side.open{transform:none}
   .top{padding:0 16px}
   .top .menu{display:inline-grid}
@@ -629,7 +637,6 @@ function renderShell(){
     <aside class="side" id="side">
       <div class="brand-logo"><img class="logo-l" src="logo.png" alt="Low Cost"><img class="logo-d" src="logo-escuro.png" alt="Low Cost"><span class="app-name">Controle de Licenças Office</span></div>
       <nav id="nav"></nav>
-      <div class="spacer"></div>
       <div class="me">
         <div class="avatar">${esc((me.nome[0]||'?').toUpperCase())}</div>
         <div class="who"><div class="trunc">${esc(me.nome)}</div><div class="muted small">${esc(PERFIL[me.perfil])}</div></div>
