@@ -463,14 +463,14 @@ async function fetchAll(mk){
 async function loadData(){
   const [contas, vagas] = await Promise.all([
     fetchAll((a,b) => sb.from('contas').select('id,email').order('id').range(a,b)),
-    fetchAll((a,b) => sb.from('vagas').select('id,conta_id,n,status,hostname,serial,data_ativacao,data_incerta,proposta,obs,atualizado_em,clientes(nome)').order('id').range(a,b))
+    fetchAll((a,b) => sb.from('vagas').select('id,conta_id,n,status,hostname,serial,data_ativacao,proposta,obs,atualizado_em,clientes(nome)').order('id').range(a,b))
   ]);
   const by = {}, sl = {};
   contas.forEach(c => by[c.id] = {id:c.id, email:c.email, slots:[]});
   vagas.forEach(v => {
     const a = by[v.conta_id]; if (!a) return;
     const s = {id:v.id, n:v.n, st:v.status, cli:v.clientes ? v.clientes.nome : '', serial:v.serial||'', host:v.hostname||'',
-               data:v.data_ativacao, inc:v.data_incerta, prop:v.proposta||'', obs:v.obs||'', upd:v.atualizado_em, a};
+               data:v.data_ativacao, prop:v.proposta||'', obs:v.obs||'', upd:v.atualizado_em, a};
     a.slots.push(s); sl[s.id] = s;
   });
   const accs = Object.values(by);
@@ -493,7 +493,6 @@ function computeDerived(){
   act.forEach(s => { if (s.serial) (serialMap[s.serial.toUpperCase()] ||= []).push(s); });
   S.q = {
     dup: Object.entries(serialMap).filter(([k,v]) => v.length > 1),
-    inc: act.filter(s => s.inc).sort((a,b) => (a.data||'').localeCompare(b.data||'')),
     noHost: act.filter(s => !s.host),
     noSerial: act.filter(s => !s.serial),
     noDate: act.filter(s => !s.data),
@@ -660,7 +659,7 @@ function pager(total, page, size, fn){
     <button class="btn sm" ${page < pages-1 ? '' : 'disabled'} onclick="${fn}(${page+1})">Próxima</button></div></div>`;
 }
 const cellsHtml = (a, lg) => `<span class="cells ${lg?'lg':''}">${a.slots.map(s => `<i class="cell ${s.st==='disponivel'?'f':s.st==='reservado'?'r':''}" title="Vaga ${s.n}: ${s.st==='ativo' ? esc(s.cli) : s.st==='disponivel' ? 'livre' : 'reservada'}"></i>`).join('')}</span>`;
-const dateTag = s => s.data ? `${fmt(s.data)}${s.inc ? ` <span class="badge b-warn" title="Dia e mês podem estar trocados (veio da planilha). Confirme em Qualidade dos dados.">?</span>` : ''}` : '<span class="muted">sem data</span>';
+const dateTag = s => s.data ? fmt(s.data) : '<span class="muted">sem data</span>';
 const slotRef = s => `${esc(user(s.a.email))} <span class="muted">· vaga ${s.n}</span>`;
 function statusBadges(c){
   return (c.r ? `<span class="badge b-res">${ic('lock')}${c.r} reserv.</span> ` : '') +
@@ -702,7 +701,7 @@ function vPainel(){
       ${old.map(s => `<div class="mini-row" onclick="openAccount(${s.a.id})"><div class="mr-m"><div class="mr-t trunc">${esc(s.cli)}</div><div class="mr-s trunc"><span class="mono">${esc(s.host||'sem hostname')}</span> · ${slotRef(s)}</div></div><div class="right"><div class="small strong">${fmt(s.data)}</div><div class="mr-s">${ageTxt(ageDays(s.data))}</div></div></div>`).join('') || emptyBox('clock','Sem ativações com data')}
     </div></div></div>
     <div class="card"><div class="card-h"><h3>Atenção nos dados</h3><a class="small" href="#/qualidade">Detalhes</a></div><div class="card-b">
-      ${[['dup','Seriais duplicados','b-bad'],['inc','Datas para confirmar','b-warn'],['noClient','Cliente não identificado','b-warn'],['noHost','Máquinas sem hostname','b-warn'],['noSerial','Máquinas sem serial','b-warn']]
+      ${[['dup','Seriais duplicados','b-bad'],['noDate','Máquinas sem data','b-warn'],['noClient','Cliente não identificado','b-warn'],['noHost','Máquinas sem hostname','b-warn'],['noSerial','Máquinas sem serial','b-warn']]
         .map(([k,l,c]) => `<div class="check-row" onclick="QV.tab='${k}';go('qualidade')"><span>${l}</span><span class="badge ${q[k].length ? c : 'b-ok'}">${q[k].length ? q[k].length : ic('check')}</span></div>`).join('')}
     </div></div>
   </div>
@@ -959,21 +958,20 @@ async function confirmRelease(id){
 /* =====================================================================
    MÁQUINAS
    ===================================================================== */
-const MV = {q:'', cli:'', inc:false, sort:'data', dir:-1, page:0};
+const MV = {q:'', cli:'', sort:'data', dir:-1, page:0};
 const PAGE = 50;
 function vMaquinas(){
   $('#view').innerHTML = pageHead('Máquinas', 'Todas as máquinas com Office ativado.', `<button class="btn" onclick="exportCsv()">${ic('dl')} Exportar CSV</button>`) + `
   <div class="toolbar">
     <div class="searchbox">${ic('search','sm')}<input class="input" type="search" placeholder="Buscar cliente, hostname, serial, conta ou proposta" value="${esc(MV.q)}" oninput="MV.q=this.value;MV.page=0;vMaqBody()"></div>
     <select class="input" onchange="MV.cli=this.value;MV.page=0;vMaqBody()"><option value="">Todos os clientes</option>${S.clients.map(([n,c]) => `<option value="${esc(n)}" ${MV.cli===n?'selected':''}>${esc(n)} (${c})</option>`).join('')}</select>
-    <label class="small" style="display:flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" ${MV.inc?'checked':''} onchange="MV.inc=this.checked;MV.page=0;vMaqBody()"> Só datas a confirmar</label>
   </div><div id="mbody"></div>`;
   vMaqBody();
 }
 function maqList(){
   const q = norm(MV.q);
   const key = {cli:s => s.cli, host:s => s.host, serial:s => s.serial, conta:s => num(s.a.email)*10 + s.n, data:s => s.data || ''}[MV.sort];
-  return S.active.filter(s => (!MV.cli || s.cli === MV.cli) && (!MV.inc || s.inc) && (!q || norm([s.cli,s.host,s.serial,s.a.email,s.prop,s.obs].join(' ')).includes(q)))
+  return S.active.filter(s => (!MV.cli || s.cli === MV.cli) && (!q || norm([s.cli,s.host,s.serial,s.a.email,s.prop,s.obs].join(' ')).includes(q)))
     .sort((a,b) => { const x = key(a), y = key(b); return (x < y ? -1 : x > y ? 1 : 0) * MV.dir; });
 }
 function mSort(k){ if (MV.sort === k) MV.dir *= -1; else { MV.sort = k; MV.dir = k === 'data' ? -1 : 1; } vMaqBody(); }
@@ -988,8 +986,8 @@ function vMaqBody(){
   </tbody></table></div>${pager(L.length, MV.page, PAGE, 'mPage')}</div>`;
 }
 function exportCsv(){
-  const rows = [['Cliente','Hostname','Serial','Conta','Vaga','Data ativação','Data a confirmar','Proposta','Observação']].concat(
-    maqList().map(s => [s.cli, s.host, s.serial, s.a.email, s.n, s.data ? fmt(s.data) : '', s.inc ? 'sim' : '', s.prop, s.obs]));
+  const rows = [['Cliente','Hostname','Serial','Conta','Vaga','Data ativação','Proposta','Observação']].concat(
+    maqList().map(s => [s.cli, s.host, s.serial, s.a.email, s.n, s.data ? fmt(s.data) : '', s.prop, s.obs]));
   const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(';')).join('\r\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
   a.download = `maquinas-office-${todayIso()}.csv`; document.body.appendChild(a); a.click(); a.remove();
@@ -1152,10 +1150,10 @@ async function confirmBulk(){
 /* =====================================================================
    QUALIDADE DOS DADOS
    ===================================================================== */
-const QV = {tab:'inc', page:0};
+const QV = {tab:'dup', page:0};
 function vQualidade(){
   const q = S.q;
-  const tabs = [['inc','Datas a confirmar',q.inc.length],['dup','Seriais duplicados',q.dup.length],['noClient','Cliente não identificado',q.noClient.length],['noHost','Sem hostname',q.noHost.length],['noSerial','Sem serial',q.noSerial.length],['noDate','Sem data',q.noDate.length]];
+  const tabs = [['dup','Seriais duplicados',q.dup.length],['noClient','Cliente não identificado',q.noClient.length],['noHost','Sem hostname',q.noHost.length],['noSerial','Sem serial',q.noSerial.length],['noDate','Sem data',q.noDate.length]];
   $('#view').innerHTML = pageHead('Qualidade dos dados', 'Itens que merecem revisão. Corrigir aqui deixa a reciclagem mais confiável.') + `
   <div class="tabs">${tabs.map(([k,l,n]) => `<button class="tab ${QV.tab===k?'on':''}" onclick="QV.tab='${k}';QV.page=0;vQualidade()">${l}<span class="badge ${n ? (k==='dup'?'b-bad':'b-warn') : 'b-ok'}">${n}</span></button>`).join('')}</div>
   <div id="qbody"></div>`;
@@ -1172,16 +1170,7 @@ function vQualBody(){
     </tbody></table></div>${arr.length ? pager(arr.length, QV.page, PAGE, 'qPage') : ''}</div>`;
   };
   let html = '';
-  if (QV.tab === 'inc'){
-    const pg = q.inc.slice(QV.page*PAGE, (QV.page+1)*PAGE);
-    html = `<div class="alert info" style="margin-bottom:14px">${ic('info')}<div>Na planilha antiga, parte das datas veio com <b>dia e mês trocados</b> (ex.: 07/02 que era 02/07). Quando o dia é 12 ou menos não dá para saber qual é o certo. Para cada item, <b>confirme</b> a data como está ou <b>inverta</b> dia e mês.</div></div>
-    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Cliente</th><th class="hide-sm">Hostname</th><th>Conta</th><th>Data atual</th><th>Se inverter</th>${ed ? '<th class="right">Ação</th>' : ''}</tr></thead><tbody>
-    ${pg.map(s => { const sw = swapDate(s.data); return `<tr><td class="strong">${esc(s.cli)}</td><td class="mono hide-sm">${esc(s.host)||'<span class="muted">—</span>'}</td><td class="mono small nowrap"><a href="#" onclick="openAccount(${s.a.id});return false">${slotRef(s)}</a></td>
-      <td class="nowrap">${fmt(s.data)}</td><td class="nowrap">${sw ? fmt(sw) : '<span class="muted">—</span>'}</td>
-      ${ed ? `<td class="right nowrap"><button class="btn sm" onclick="fixDate(${s.id},false,this)">${ic('check','sm')} Confirmar</button> ${sw ? `<button class="btn sm" onclick="fixDate(${s.id},true,this)">${ic('swap','sm')} Inverter</button>` : ''}</td>` : ''}</tr>`; }).join('')
-      || `<tr><td colspan="6">${emptyBox('check','Todas as datas foram confirmadas')}</td></tr>`}
-    </tbody></table></div>${q.inc.length ? pager(q.inc.length, QV.page, PAGE, 'qPage') : ''}</div>`;
-  } else if (QV.tab === 'dup'){
+  if (QV.tab === 'dup'){
     html = `<div class="alert warn" style="margin-bottom:14px">${ic('alert')}<span>O mesmo serial aparece em mais de uma vaga ativa. Normalmente é a mesma máquina ativada duas vezes. Libere a vaga que sobra.</span></div>
     <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Serial</th><th>Onde aparece</th></tr></thead><tbody>
     ${q.dup.map(([k,v]) => `<tr><td class="mono strong">${esc(k)}</td><td><div class="mini">${v.map(s => `<div class="mini-row" onclick="openAccount(${s.a.id})"><div class="mr-m"><div class="mr-t">${esc(s.cli)}</div><div class="mr-s"><span class="mono">${esc(s.host||'sem hostname')}</span> · ${slotRef(s)} · ${fmt(s.data)}</div></div></div>`).join('')}</div></td></tr>`).join('')
@@ -1190,29 +1179,11 @@ function vQualBody(){
   } else html = rowsBasic(q[QV.tab]);
   $('#qbody').innerHTML = html;
 }
-function swapDate(d){
-  if (!d) return null;
-  const [y, m, dd] = d.split('-');
-  if (+dd > 12 || dd === m) return null;
-  const n = `${y}-${dd}-${m}`;
-  return n <= todayIso() ? n : null;
-}
-async function fixDate(id, swap, btn){
-  const s = S.slotById[id];
-  await busy(btn, async () => {
-    try {
-      await rpc('editar_vaga', {p_vaga:s.id, p_cliente:s.cli, p_hostname:s.host, p_serial:s.serial, p_data:swap ? swapDate(s.data) : s.data, p_proposta:s.prop, p_obs:s.obs});
-      await loadData(); toast(swap ? 'Data invertida e confirmada' : 'Data confirmada');
-      renderNav(); vQualidade();
-    } catch(e){ toast(errMsg(e), 'err'); }
-  });
-}
-
 /* =====================================================================
    HISTÓRICO
    ===================================================================== */
 const HV = {q:'', acao:'', page:0};
-const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada'];
+const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Datas confirmadas'];
 function vHistorico(){
   $('#view').innerHTML = pageHead('Histórico', 'Tudo o que foi feito na ferramenta: quem, o quê e quando.') + `
   <div class="toolbar">
