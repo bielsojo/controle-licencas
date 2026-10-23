@@ -879,7 +879,32 @@ function drawAccount(){
         <div class="sec-t">Microsoft 365${MS[a.id] && !MS[a.id].loading ? `<button class="btn sm ghost" onclick="loadMs(${a.id})">${ic('refresh','sm')} Atualizar</button>` : ''}</div>
         ${msHtml(a)}
       </div>
+      ${isAdmin() ? `<div>
+        <div class="sec-t" style="color:var(--bad)">Zona de perigo</div>
+        <div class="slot" style="border-color:color-mix(in srgb,var(--bad) 35%,var(--line))"><div class="slot-h"><div class="grow"><div class="strong">Excluir esta conta</div><div class="small muted">Remove a conta, as 5 vagas e a senha guardada. Não dá para desfazer.</div></div>
+          <button class="btn sm danger" onclick="excluirConta(${a.id})">${ic('x','sm')} Excluir</button></div></div>
+      </div>` : ''}
     </div>`;
+}
+// Exclusão de conta: só administrador, com confirmação digitando o e-mail (o banco confere de novo).
+function excluirConta(id){
+  const a = S.byId[id]; if (!a || !isAdmin()) return;
+  const act = a.slots.filter(s => s.st === 'ativo');
+  const m = modal({title:'Excluir conta de licença?', sub:a.email, icon:'alert', tone:'bad', body:`<div class="form">
+    <div class="alert err">${ic('alert')}<span>A conta <b>${esc(a.email)}</b>, as ${a.c.t} vagas e a senha guardada serão <b>apagadas de vez</b>. O histórico registra o que havia nela.</span></div>
+    ${act.length ? `<div><div class="small strong" style="margin-bottom:6px">${plural(act.length,'máquina ativa vai','máquinas ativas vão')} perder o registro:</div>
+      <ul class="small" style="margin:0;padding-left:18px">${act.map(s => `<li><b>${esc(s.cli)}</b> · <span class="mono">${esc(s.host || 'sem hostname')}</span> · vaga ${s.n}</li>`).join('')}</ul></div>` : '<div class="small muted">Nenhuma máquina ativa nesta conta.</div>'}
+    <div class="field"><label>Para confirmar, digite o e-mail da conta</label><input class="input mono" id="xce" placeholder="${esc(a.email)}" autocomplete="off" spellcheck="false"
+      oninput="$('#xcok').disabled = this.value.trim().toLowerCase() !== '${esc(a.email.toLowerCase())}'"></div>
+    <div class="alert err hidden" id="xcerr"></div>
+  </div>`, foot:`<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn danger" id="xcok" disabled>Excluir conta</button>`});
+  $('#xcok', m).onclick = e => busy(e.currentTarget, async () => {
+    try {
+      await rpc('excluir_conta', {p_conta:id, p_confirmacao:$('#xce').value});
+      closeModal(); closeDrawer(); await loadData(); renderView(); toast('Conta excluída');
+    } catch(err){ const x = $('#xcerr'); x.classList.remove('hidden'); x.innerHTML = ic('alert') + `<span>${esc(errMsg(err))}</span>`; }
+  });
+  setTimeout(() => $('#xce').focus(), 50);
 }
 
 /* ---- Dispositivos e ativações no Microsoft 365 (somente leitura, via Edge Function "microsoft365") ---- */
@@ -1330,7 +1355,7 @@ function vQualBody(){
    HISTÓRICO
    ===================================================================== */
 const HV = {q:'', acao:'', page:0};
-const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Vaga reservada','Reserva retirada','Usuário criado','Senha de usuário redefinida','Datas confirmadas'];
+const ACOES = ['Máquina ativada','Máquina editada','Vaga liberada','Reciclagem (liberada)','Senha visualizada','Senha da conta alterada','Conta criada','Vaga reservada','Reserva retirada','Conta excluída','Usuário criado','Senha de usuário redefinida','Datas confirmadas'];
 function vHistorico(){
   $('#view').innerHTML = pageHead('Histórico', 'Tudo o que foi feito na ferramenta: quem, o quê e quando.') + `
   <div class="toolbar">
